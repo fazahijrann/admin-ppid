@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\PermohonanInformasi;
 use Illuminate\Http\Request;
+use App\Models\PermohonanInformasi;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class PermohonanInformasiController extends Controller
 {
@@ -13,7 +15,13 @@ class PermohonanInformasiController extends Controller
      */
     public function index()
     {
-        $data = PermohonanInformasi::with('pemohon')->get();
+        $data = Auth::user();
+        if ($data->role == 'petugas_ppid') {
+            $data = PermohonanInformasi::with(['pemohon'])->where('status', 'Menunggu')->get();
+            // dd($data);
+        } elseif ($data->role == 'pejabat_ppid') {
+            $data = PermohonanInformasi::with(['pemohon'])->where('status', 'Diproses')->get();
+        }
         return view('pengelola.permohonan-informasi', compact('data'));
     }
 
@@ -30,7 +38,7 @@ class PermohonanInformasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort(404);
     }
 
     /**
