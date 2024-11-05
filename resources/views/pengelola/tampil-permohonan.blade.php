@@ -16,14 +16,14 @@
             <!-- END: Top Bar -->
             <div class="grid grid-cols-12 gap-6">
 
-                <!-- BEGIN: Pemohon Informasi -->
+                <!-- BEGIN: Permohonan Informasi -->
                 <div class="col-span-12 mt-6">
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
-                            Pemohon Informasi
+                            Permohonan Informasi
                         </h2>
                     </div>
-                    <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
+                    <div class="intro-y overflow-auto mt-8 sm:mt-0">
                         <table class="table table-report sm:mt-2">
                             <thead>
                                 <tr>
@@ -31,7 +31,6 @@
                                     <th class="whitespace-nowrap">Nama Pemohon</th>
                                     <th class="text-center whitespace-nowrap">NIK</th>
                                     <th class="text-center whitespace-nowrap">Nomor Permohonan Informasi</th>
-                                    {{-- <th class="text-center whitespace-nowrap">Pekerjaan</th> --}}
                                     <th class="text-center whitespace-nowrap">Kategori Memperoleh</th>
                                     <th class="text-center whitespace-nowrap">Kategori Salinan</th>
                                     <th class="text-center whitespace-nowrap">Status</th>
@@ -67,15 +66,15 @@
                                         <td class="w-40">
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
-                                                <p class="text-center ml-2">{{ $user->status }} </p>
+                                                <p class="text-center ml-2"> Menunggu </p>
                                             </div>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
-                                                {{-- <a class="flex items-center mr-4"
-                                                    href="{{ route('permohonan.show', ['id' => $user->pemohon->id]) }}">
+                                                <a class="flex items-center mr-4"
+                                                    href="{{ route('permohonan.show', $user->id) }}">
                                                     <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
-                                                    Detail </a> --}}
+                                                    Detail </a>
                                                 <a class="flex items-center text-danger" href=""> <i
                                                         data-lucide="trash-2" class="w-4 h-4 mr-1"></i>
                                                     Delete </a>

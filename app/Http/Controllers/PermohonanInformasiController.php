@@ -17,12 +17,12 @@ class PermohonanInformasiController extends Controller
     {
         $data = Auth::user();
         if ($data->role == 'petugas_ppid') {
-            $data = PermohonanInformasi::with(['pemohon'])->where('status', 'Menunggu')->get();
+            $data = PermohonanInformasi::with(['pemohon'])->get();
             // dd($data);
         } elseif ($data->role == 'pejabat_ppid') {
-            $data = PermohonanInformasi::with(['pemohon'])->where('status', 'Diproses')->get();
+            $data = PermohonanInformasi::with(['pemohon'])->get();
         }
-        return view('pengelola.permohonan-informasi', compact('data'));
+        return view('pengelola.tampil-permohonan', compact('data'));
     }
 
     /**
@@ -44,18 +44,22 @@ class PermohonanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PermohonanInformasi $permohonanInformasi)
+    public function show($id)
     {
-        //
+        $data = PermohonanInformasi::findOrFail($id);
+        dd($data);
+        return view('detail.permohonan-informasi', compact('data'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(PermohonanInformasi $permohonanInformasi)
-    {
-        //
-    }
+    // public function edit($id)
+    // {
+    //     $data = PermohonanInformasi::findOrFail($id);
+    //     // dd($data);
+    //     return view('detail.permohonan-informasi', compact('data'));
+    // }
 
     /**
      * Update the specified resource in storage.

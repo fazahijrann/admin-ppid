@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Penerima;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,9 +16,28 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Penerima::factory()->create([
+            'id' => '1',
+            'nama' => 'superadmin',
+            'email' => 'superadmin@gmail.com',
+            'password' => 'superadmin',
+            'jabatan' => 'superadmin',
+        ]);
+
+        Penerima::factory()->create([
+            'id' => '2',
+            'nama' => 'petugas',
+            'email' => 'petugas@gmail.com',
+            'password' => 'petugas',
+            'jabatan' => 'petugas_ppid',
+        ]);
+
+        Penerima::factory()->create([
+            'id' => '3',
+            'nama' => 'pejabat',
+            'email' => 'pejabat@gmail.com',
+            'password' => 'pejabat',
+            'jabatan' => 'pejabat_ppid',
         ]);
     }
 }

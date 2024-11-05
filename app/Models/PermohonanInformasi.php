@@ -21,8 +21,8 @@ class PermohonanInformasi extends Model
         'tgl_permohonan',
         'id_penerima',
         'pernyataan',
-    ];
 
+    ];
 
     // Relasi dengan tabel kategori_memperoleh
     public function pemohon()

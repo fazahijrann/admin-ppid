@@ -15,7 +15,7 @@ class KeberatanInformasiController extends Controller
 
         $data = KeberatanInformasi::with('pemohon')->get();
         // dd($data);
-        return view('pengelola.permohonan-informasi', compact('data'));
+        return view('pengelola.tampil-keberatan', compact('data'));
     }
 
     /**
