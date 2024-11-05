@@ -47,7 +47,7 @@ class PermohonanInformasiController extends Controller
     public function show($id)
     {
         $data = PermohonanInformasi::findOrFail($id);
-        dd($data);
+        // dd($data);
         return view('detail.permohonan-informasi', compact('data'));
     }
 
