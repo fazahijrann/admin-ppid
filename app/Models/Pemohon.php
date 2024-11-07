@@ -63,4 +63,9 @@ class Pemohon extends Authenticatable
     {
         return $this->nama; // Bisa disesuaikan jika ada logika penggabungan nama
     }
+
+    public function tandaBuktiPenerimaan()
+    {
+        return $this->hasMany(TandaBuktiPenerimaan::class, 'pemohon_id');
+    }
 }
