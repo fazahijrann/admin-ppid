@@ -18,4 +18,9 @@ class KeputusanInformasi extends Model
         'keterangan',
         'status',
     ];
+
+    public function permohonanInformasi()
+    {
+        return $this->hasOne(PermohonanInformasi::class, 'pernyataan', 'id');
+    }
 }

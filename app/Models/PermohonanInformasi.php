@@ -41,4 +41,14 @@ class PermohonanInformasi extends Model
     {
         return $this->belongsTo(KategoriSalinan::class, 'id_kategori_salinan');
     }
+
+    public function keputusanInformasi()
+    {
+        return $this->belongsTo(KeputusanInformasi::class, 'pernyataan', 'id');
+    }
+
+    public function penerimaInformasi()
+    {
+        return $this->belongTo(Penerima::class, 'id_penerima');
+    }
 }

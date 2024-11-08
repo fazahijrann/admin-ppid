@@ -15,8 +15,7 @@
             <x-topbar />
             <!-- END: Top Bar -->
             <div class="grid grid-cols-12 gap-6">
-
-                <!-- BEGIN: Permohonan Informasi -->
+                <!-- BEGIN: Tampil Permohonan Informasi -->
                 <div class="col-span-12 mt-6">
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
@@ -66,7 +65,13 @@
                                         <td class="w-40">
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
-                                                <p class="text-center ml-2"> Menunggu </p>
+                                                <p class="text-center ml-2">
+                                                    @if ($user->keputusanInformasi && $user->keputusanInformasi->status)
+                                                        {{ $user->keputusanInformasi->status }}
+                                                    @else
+                                                        Belum Diproses
+                                                    @endif
+                                                </p>
                                             </div>
                                         </td>
                                         <td class="table-report__action w-56">
@@ -125,7 +130,7 @@
                     </div>
                     <!-- PAGINATION END -->
                 </div>
-                <!-- END: Pemohon Informasi -->
+                <!-- END: Tampil Pemohon Informasi -->
 
             </div>
         </div>

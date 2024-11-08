@@ -16,11 +16,19 @@ class PermohonanInformasiController extends Controller
     public function index()
     {
         $data = Auth::user();
-        if ($data->role == 'petugas_ppid') {
-            $data = PermohonanInformasi::with(['pemohon'])->get();
+        if ($data->role === 'petugas_ppid') {
+            $data = PermohonanInformasi::with('pemohon')
+                ->whereHas('keputusanInformasi', function ($query) {
+                    $query->where('status', 'Menunggu');
+                })
+                ->get();
             // dd($data);
-        } elseif ($data->role == 'pejabat_ppid') {
-            $data = PermohonanInformasi::with(['pemohon'])->get();
+        } elseif ($data->role === 'pejabat_ppid') {
+            $data = PermohonanInformasi::with('pemohon')
+                ->whereHas('keputusanInformasi', function ($query) {
+                    $query->where('status', 'Diproses');
+                })
+                ->get();
         }
         return view('pengelola.tampil-permohonan', compact('data'));
     }
