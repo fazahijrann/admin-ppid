@@ -32,6 +32,7 @@ class PermohonanInformasiController extends Controller
                 })
                 ->get();
         }
+        // dd($data);
 
         // $data = PermohonanInformasi::get();
         return view('pengelola.tampil-permohonan', compact('data'));
@@ -56,12 +57,12 @@ class PermohonanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($no_permohonan_informasi)
-    {
-        $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
-        // dd($data);
-        return view('detail.permohonan-informasi', compact('data'));
-    }
+        public function show($no_permohonan_informasi)
+        {
+            $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
+            // dd($data);
+            return view('detail.permohonan-informasi', compact('data'));
+        }
 
     /**
      * Show the form for editing the specified resource.
@@ -112,6 +113,7 @@ class PermohonanInformasiController extends Controller
                 // $data->tandaBuktiPenerimaan->save();
             }
         }
+
 
         return redirect(route('permohonan.index'))->with('success', 'Status updated successfully');
     }
