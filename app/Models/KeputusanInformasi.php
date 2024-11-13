@@ -9,18 +9,24 @@ class KeputusanInformasi extends Model
     protected $table = 'keputusan_informasi';
 
     protected $fillable = [
-        'id', // foreign key related to permohonan_informasi
-        'tanda_penerimaan_id',
+        'id',
+        'tanda_buktipenerimaan_id',
         'sumber_informasi_id',
         'biaya_informasi_id',
         'jenis_informasi_id',
         'tgl_keputusan',
         'keterangan',
         'status',
+        'updated_at'
     ];
 
-    public function permohonanInformasi()
+    // public function permohonanInformasi()
+    // {
+    //     return $this->hasOne(PermohonanInformasi::class, 'pernyataan', 'id');
+    // }
+
+    public function tandaBukti()
     {
-        return $this->hasOne(PermohonanInformasi::class, 'pernyataan', 'id');
+        return $this->hasOne(TandaBuktiPenerimaan::class, 'tanda_buktipenerimaan_id');
     }
 }

@@ -66,8 +66,8 @@
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
                                                 <p class="text-center ml-2">
-                                                    @if ($user->keputusanInformasi && $user->keputusanInformasi->status)
-                                                        {{ $user->keputusanInformasi->status }}
+                                                    @if ($user->tandaBuktiPenerimaan && $user->tandaBuktiPenerimaan->status)
+                                                        {{ $user->tandaBuktiPenerimaan->status }}
                                                     @else
                                                         Belum Diproses
                                                     @endif

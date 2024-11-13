@@ -42,7 +42,7 @@ class Pemohon extends Authenticatable
     // Relasi dengan tabel kategori_pemohon
     public function kategoriPemohon()
     {
-        return $this->belongsTo(KategoriPemohon::class, 'id_kategori');
+        return $this->belongsTo(KategoriPemohon::class, 'id_kategori', 'id_kategori');
     }
 
     // Pastikan password di-hash secara otomatis
@@ -64,8 +64,13 @@ class Pemohon extends Authenticatable
         return $this->nama; // Bisa disesuaikan jika ada logika penggabungan nama
     }
 
-    public function tandaBuktiPenerimaan()
-    {
-        return $this->hasMany(TandaBuktiPenerimaan::class, 'pemohon_id');
-    }
+    // public function tandaBuktiPenerimaan()
+    // {
+    //     return $this->hasMany(TandaBuktiPenerimaan::class, 'pemohon_id');
+    // }
+
+    // public function keputusanInformasi() {
+    //     return $this->hasMany(KeputusanInformasi::class, '');
+
+    // }
 }
