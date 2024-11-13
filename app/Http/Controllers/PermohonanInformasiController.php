@@ -26,8 +26,8 @@ class PermohonanInformasiController extends Controller
                 ->get();
             // dd($data);
         } elseif ($data->role === 'pejabat_ppid') {
-            $data = PermohonanInformasi::with('pemohon')
-                ->whereHas('tandaBuktiPenerimaan', function ($query) {
+            $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])
+                ->whereHas('tandaBuktiPenerimaan.tandaKeputusan', function ($query) {
                     $query->where('status', 'Diproses');
                 })
                 ->get();
@@ -56,9 +56,9 @@ class PermohonanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($no_permohonan_informasi)
     {
-        $data = PermohonanInformasi::findOrFail($id);
+        $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
         // dd($data);
         return view('detail.permohonan-informasi', compact('data'));
     }
@@ -76,31 +76,6 @@ class PermohonanInformasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $data = PermohonanInformasi::findOrFail($id);
-
-    //     // Periksa apakah relasi tandaBuktiPenerimaan ada
-    //     if ($data->tandaBuktiPenerimaan) {
-    //         // Periksa apakah tombol "Lanjutkan" diklik
-    //         if ($request->has('action') && $request->input('action') === 'lanjutkan') {
-    //             $data->tandaBuktiPenerimaan->status = null;  // Set status tandaBuktiPenerimaan ke null
-    //             // Periksa apakah relasi keputusanInformasi ada
-    //             if ($data->keputusanInformasi) {
-    //                 $data->keputusanInformasi->status = 'diproses';  // Set status keputusanInformasi ke 'diproses'
-    //                 $data->keputusanInformasi->save();  // Simpan perubahan di keputusanInformasi
-    //             }
-    //         } else {
-    //             $data->tandaBuktiPenerimaan->status = 'ditolak';  // Set status tandaBuktiPenerimaan ke 'ditolak'
-    //         }
-
-    //         // Simpan keterangan di tandaBuktiPenerimaan jika ada
-    //         $data->tandaBuktiPenerimaan->keterangan = $request->input('keterangan');
-    //         $data->tandaBuktiPenerimaan->save();  // Simpan perubahan di tandaBuktiPenerimaan
-    //     }
-
-    //     return redirect(route('permohonan.index'))->with('success', 'Status updated successfully');
-    // }
 
     public function update(Request $request, $id)
     {
@@ -111,23 +86,27 @@ class PermohonanInformasiController extends Controller
             // Jika tombol "Lanjutkan" diklik
             if ($request->has('action') && $request->input('action') === 'lanjutkan') {
                 // Set status tandaBuktiPenerimaan ke null atau kosong
-                $data->id_penerima = Auth::id();
                 $data->tandaBuktiPenerimaan()->update([
                     'tgl_penerimaan' => now(),
-                    'status' => null,
+                    'status' => 'Diteruskan',
                 ]);
 
+                // Ambil objek TandaBuktiPenerimaan
+                $keputusan = $data->tandaBuktiPenerimaan;
+
                 // Buat data baru di tabel keputusan_informasi
-                $data->tandaBuktiPenerimaan()->tandaKeputusan()->create([
-                    'tanda_buktipenerimaan_id' => $data->tandaBuktiPenerimaan->id,
-                    'status' => 'diproses',                  // Set status keputusan ke 'diproses'
+                $keputusan->tandaKeputusan()->create([
+                    'tanda_buktipenerimaan_id' => $data->id,
+                    'status' => 'Diproses',                  // Set status keputusan ke 'diproses'
                     'tgl_keputusan' => now(),                // Set tanggal keputusan ke waktu saat ini
                     'keterangan' => $request->input('keterangan'),
+                    'updated_at' => now(),
                 ]);
             } else {
                 // Jika tombol "kembalikan" diklik
                 $data->tandaBuktiPenerimaan()->update([
                     'status' => 'Ajukan Ulang',
+                    'tgl_penerimaan' => null,
                 ]);
                 // $data->tandaBuktiPenerimaan->status = 'Ajukan Ulang';  
                 // $data->tandaBuktiPenerimaan->save();

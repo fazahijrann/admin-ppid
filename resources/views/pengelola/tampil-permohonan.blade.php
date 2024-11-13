@@ -66,18 +66,20 @@
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
                                                 <p class="text-center ml-2">
-                                                    @if ($user->tandaBuktiPenerimaan && $user->tandaBuktiPenerimaan->status)
+                                                    {{-- @if ($user->tandaBuktiPenerimaan && $user->tandaBuktiPenerimaan->status)
                                                         {{ $user->tandaBuktiPenerimaan->status }}
                                                     @else
                                                         Belum Diproses
-                                                    @endif
+                                                    @endif --}}
+
+                                                    {{ $user->tandaBuktiPenerimaan->status }}
                                                 </p>
                                             </div>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
                                                 <a class="flex items-center mr-4"
-                                                    href="{{ route('permohonan.show', $user->id) }}">
+                                                    href="{{ route('permohonan.show', $user->no_permohonan_informasi) }}">
                                                     <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
                                                     Detail </a>
                                                 <a class="flex items-center text-danger" href=""> <i

@@ -64,7 +64,7 @@
 @endif
 
 
-@if (Auth::user()->role === 'petugas_ppid')
+@if (Auth::user()->role = ['petugas_ppid', 'pejabat_ppid'])
     <nav class="side-nav">
         <a href="/" class="intro-x flex items-center pl-5 pt-4">
             <img alt="Logo PPID" class="w-8" src="{{ asset('img/logo-ppid.png') }}">
@@ -104,7 +104,7 @@
     </nav>
 @endif
 
-
+{{-- 
 @if (Auth::user()->role === 'pejabat_ppid')
     <nav class="side-nav">
         <a href="/" class="intro-x flex items-center pl-5 pt-4">
@@ -112,7 +112,7 @@
             <span class="hidden xl:block text-white text-lg ml-3"> PPID Admin </span>
         </a>
         <div class="side-nav__devider my-6"></div>
-        {{-- <ul>
+        <ul>
             <li>
                 <a href="/" class="side-menu {{ request()->routeIs('dashboard') ? 'side-menu--active' : '' }}">
                     <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
@@ -139,7 +139,7 @@
                     </div>
                 </a>
             </li>
-        </ul> --}}
+        </ul>
 
     </nav>
-@endif
+@endif --}}

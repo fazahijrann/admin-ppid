@@ -29,9 +29,9 @@
                     </ul>
                 </div>
             @endif
-
+            
+            
             <div class="mt-5">
-
                 <!-- BEGIN: Input -->
                 <form action="{{ route('permohonan.update', $data->id) }}" method="POST">
                     @csrf
@@ -105,6 +105,8 @@
                 <!-- END: Input -->
 
             </div>
+
+
         </div>
     </div>
     </div>
