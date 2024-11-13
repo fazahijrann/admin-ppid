@@ -21,8 +21,8 @@ class PermohonanInformasi extends Model
         'tgl_permohonan',
         'id_penerima',
         'pernyataan',
-    ];
 
+    ];
 
     // Relasi dengan tabel kategori_memperoleh
     public function pemohon()
@@ -40,5 +40,20 @@ class PermohonanInformasi extends Model
     public function kategoriSalinan()
     {
         return $this->belongsTo(KategoriSalinan::class, 'id_kategori_salinan');
+    }
+
+    public function keputusanInformasi()
+    {
+        return $this->hasOne(KeputusanInformasi::class);
+    }
+
+    public function tandaBuktiPenerimaan()
+    {
+        return $this->hasOne(TandaBuktiPenerimaan::class, 'permohonan_id');
+    }
+
+    public function penerimaInformasi()
+    {
+        return $this->belongTo(Penerima::class, 'id_penerima');
     }
 }

@@ -15,7 +15,7 @@ class KeberatanInformasiController extends Controller
 
         $data = KeberatanInformasi::with('pemohon')->get();
         // dd($data);
-        return view('pengelola.permohonan-informasi', compact('data'));
+        return view('pengelola.tampil-keberatan', compact('data'));
     }
 
     /**
@@ -37,9 +37,11 @@ class KeberatanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(KeberatanInformasi $keberatanInformasi)
+    public function show($id)
     {
-        //
+        $data = KeberatanInformasi::findOrFail($id);
+        // dd($data);
+        return view('detail.keberatan-informasi', compact('data'));
     }
 
     /**

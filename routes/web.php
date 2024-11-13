@@ -21,9 +21,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'permohonan' => PermohonanInformasiController::class, // Permohonan Informasi
         'keberatan' => KeberatanInformasiController::class, // Keberatan Informasi
     ]);
-
-    // Route::resource('pemohon', PemohonController::class);
-    // Route::resource('permohonan', PermohonanInformasiController::class);
 });
 
 
