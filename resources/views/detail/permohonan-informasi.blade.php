@@ -74,9 +74,12 @@
                                     <input id="email" type="text" class="form-control"
                                         value="{{ $data->pemohon->email }}" disabled>
                                 </div>
-                                <div class="mt-3">
-                                    <label for="file-ktp" class="form-label">File KTP</label>
-                                    <input id="file-ktp" type="file" class="form-control" value="" disabled>
+                                <div class="mt-3 w-1/2">
+                                    <div>
+                                        <label for="file-ktp" class="form-label">File KTP</label>
+                                        <input id="file-ktp" type="file" class="form-control" value=""
+                                            disabled>
+                                    </div>
                                 </div>
                                 <div class="mt-3">
                                     <label for="pekerjaan" class="form-label">Pekerjaan</label>
@@ -84,7 +87,6 @@
                                         value="{{ $data->pemohon->pekerjaan }}" disabled>
                                 </div>
                             </div>
-
                             <div class="mt-3 intro-y">
                                 <button type="submit" name="action" value="lanjutkan"
                                     class="btn btn-primary">Lanjutkan</button>

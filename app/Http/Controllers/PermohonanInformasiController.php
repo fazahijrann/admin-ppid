@@ -57,12 +57,12 @@ class PermohonanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-        public function show($no_permohonan_informasi)
-        {
-            $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
-            // dd($data);
-            return view('detail.permohonan-informasi', compact('data'));
-        }
+    public function show($no_permohonan_informasi)
+    {
+        $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
+        // dd($data);
+        return view('detail.permohonan-informasi', compact('data'));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -81,6 +81,9 @@ class PermohonanInformasiController extends Controller
     public function update(Request $request, $id)
     {
         $data = PermohonanInformasi::findOrFail($id);
+
+        $data->id_penerima = Auth::id();
+        $data->save();
 
         // Periksa apakah relasi tandaBuktiPenerimaan ada
         if ($data->tandaBuktiPenerimaan) {
