@@ -41,7 +41,9 @@
                                 @foreach ($data as $user)
                                     <tr class="intro-x">
                                         <td>
-                                            <div class="ml-4">{{ $loop->iteration }}</div>
+                                            <div class="ml-4">
+                                                {{ $loop->iteration }}
+                                            </div>
                                         </td>
                                         <td>
                                             <div class="font-medium whitespace-nowrap">
@@ -67,7 +69,7 @@
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
                                                 <p class="text-center ml-2">
-                                                    {{ $user->tandaBuktiPenerimaan->status }}
+                                                    {{ $data->tandaBuktiPenerimaan }}
                                                 </p>
                                             </div>
                                         </td>
@@ -131,6 +133,8 @@
 
 
             </div>
+
+
         </div>
         <!-- END: Content -->
     </div>

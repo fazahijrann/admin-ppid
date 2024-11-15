@@ -21,6 +21,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'permohonan' => PermohonanInformasiController::class, // Permohonan Informasi
         'keberatan' => KeberatanInformasiController::class, // Keberatan Informasi
     ]);
+
+    Route::prefix('riwayat')->group(function () {
+        Route::get('/permohonan', [PermohonanInformasiController::class, 'riwayatpermohonan'])->name('riwayatPermohonan');
+        Route::get('/keberatan', [PermohonanInformasiController::class, 'riyawatKeberatan'])->name('riwayatKeberatan');
+    });
 });
 
 

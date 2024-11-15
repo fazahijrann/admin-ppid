@@ -100,6 +100,18 @@
                     </div>
                 </a>
             </li>
+
+            <li>
+                <a href="{{ route('riwayatPermohonan') }}"
+                    class="side-menu {{ request()->routeIs('riwayatPermohonan') ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
+                    <div class="side-menu__title">
+                        Riwayat Permohonan Informasi
+                    </div>
+                </a>
+            </li>
+
+
         </ul>
     </nav>
 @endif
