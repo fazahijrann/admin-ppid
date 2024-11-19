@@ -67,7 +67,11 @@
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
                                                 <p class="text-center ml-2">
-                                                    {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status }}
+                                                    @if (Auth::user()->role === 'petugas_ppid')
+                                                        {{ $user->tandaBuktiPenerimaan->status }}
+                                                    @elseif (Auth::user()->role === 'pejabat_ppid')
+                                                        {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status }}
+                                                    @endif
                                                 </p>
                                             </div>
                                         </td>

@@ -56,12 +56,59 @@ class PermohonanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
+    // public function show($no_permohonan_informasi)
+    // {
+    //     $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
+    //     // dd($data);
+    //     return view('detail.permohonan-informasi', compact('data'));
+    // }
+
+    // public function show($no_permohonan_informasi)
+    // {
+    //     $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
+
+    //     // Cek jika data sudah diproses (Diterima atau Ditolak)
+    //     if ($data->tandaBuktiPenerimaan->status === 'Diterima' || $data->tandaBuktiPenerimaan->tandaKeputusan === 'Ditolak') {
+    //         abort(404);
+    //     }
+
+    //     return view('detail.permohonan-informasi', compact('data'));
+    // }
+
     public function show($no_permohonan_informasi)
     {
         $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
-        // dd($data);
+
+        // Pastikan relasi tandaBuktiPenerimaan dan tandaKeputusan ada sebelum dicek
+        $penerimaan = $data->tandaBuktiPenerimaan;
+        $user = Auth::user();
+
+        if ($user->role === 'petugas_ppid') {
+            if (
+                $penerimaan && (
+                    in_array($penerimaan->status, ['Diteruskan', 'Ajukan Ulang']) ||
+                    ($penerimaan->tandaKeputusan && in_array($penerimaan->tandaKeputusan->status, ['Ditolak', 'Diterima']))
+                )
+            ) {
+                abort(404);
+            }
+        } elseif ($user->role === 'pejabat_ppid') {
+            if (
+                $penerimaan && (
+                    $penerimaan->status === 'Ajukan Ulang' ||
+                    ($penerimaan->tandaKeputusan && in_array($penerimaan->tandaKeputusan->status, ['Ditolak', 'Diterima']))
+                )
+            ) {
+                abort(404);
+            }
+        }
+
+
+
         return view('detail.permohonan-informasi', compact('data'));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -76,105 +123,6 @@ class PermohonanInformasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, $id)
-    // {
-    //     $data = PermohonanInformasi::findOrFail($id);
-
-    //     $data->id_penerima = Auth::id();
-    //     $data->save();
-
-    //     // Periksa apakah relasi tandaBuktiPenerimaan ada
-    //     if ($data->tandaBuktiPenerimaan) {
-    //         // Jika tombol "Lanjutkan" diklik
-    //         if ($request->has('action') && $request->input('action') === 'lanjutkan') {
-    //             // Set status tandaBuktiPenerimaan ke null atau kosong
-    //             $data->tandaBuktiPenerimaan()->update([
-    //                 'tgl_penerimaan' => now(),
-    //                 'status' => 'Diteruskan',
-    //             ]);
-
-    //             // Ambil objek TandaBuktiPenerimaan
-    //             $keputusan = $data->tandaBuktiPenerimaan;
-
-    //             // Buat data baru di tabel keputusan_informasi
-    //             $keputusan->tandaKeputusan()->create([
-    //                 'tanda_buktipenerimaan_id' => $data->id,
-    //                 'status' => 'Diproses',                  // Set status keputusan ke 'diproses'
-    //                 'tgl_keputusan' => now(),                // Set tanggal keputusan ke waktu saat ini
-    //                 'keterangan' => $request->input('keterangan'),
-    //                 'updated_at' => now(),
-    //             ]);
-    //         } else {
-    //             // Jika tombol "kembalikan" diklik
-    //             $data->tandaBuktiPenerimaan()->update([
-    //                 'status' => 'Ajukan Ulang',
-    //                 'tgl_penerimaan' => null,
-    //             ]);
-    //             // $data->tandaBuktiPenerimaan->status = 'Ajukan Ulang';  
-    //             // $data->tandaBuktiPenerimaan->save();
-    //         }
-    //     }
-
-
-    //     return redirect(route('permohonan.index'))->with('success', 'Status updated successfully');
-    // }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $data = PermohonanInformasi::findOrFail($id);
-    //     $role = Auth::user()->role;
-
-
-    //     if ($role === 'petugas_ppid') {
-    //         // Set id_penerima ke id pengguna yang login
-    //         $data->id_penerima = Auth::id();
-    //         $data->save();
-
-    //         // Cek apakah role adalah petugas_ppid atau pejabat_ppid
-    //         // Logika untuk petugas_ppid
-    //         if ($data->tandaBuktiPenerimaan) {
-    //             if ($request->has('action') && $request->input('action') === 'lanjutkan') {
-    //                 $data->tandaBuktiPenerimaan()->update([
-    //                     'tgl_penerimaan' => now(),
-    //                     'status' => 'Diteruskan',
-    //                 ]);
-
-    //                 $keputusan = $data->tandaBuktiPenerimaan;
-    //                 $keputusan->tandaKeputusan()->create([
-    //                     'tanda_buktipenerimaan_id' => $data->id,
-    //                     'status' => 'Diproses',
-    //                     'tgl_keputusan' => now(),
-    //                     'keterangan' => $request->input('keterangan'),
-    //                     'updated_at' => now(),
-    //                 ]);
-    //             } else {
-    //                 $data->tandaBuktiPenerimaan()->update([
-    //                     'status' => 'Ajukan Ulang',
-    //                     'tgl_penerimaan' => null,
-    //                 ]);
-    //             }
-    //         }
-    //     } elseif ($role === 'pejabat_ppid') {
-    //         if ($request->has('action') && $request->input('action') === 'terima') {
-    //             $data->tandaBuktiPenerimaan()->update([
-    //                 'keterangan',
-    //                 'status' => 'Diterima',
-    //                 'tgl_keputusan' => now(),
-    //                 'updated_at' => now()
-    //             ]);
-    //         } else {
-    //             $data->tandaBuktiPenerimaan()->update([
-    //                 'keterangan',
-    //                 'status' => 'Ditolak',
-    //                 'tgl_keputusan' => now(),
-    //                 'updated_at' => now()
-    //             ]);
-    //         }
-    //     }
-
-    //     return redirect(route('permohonan.index'))->with('success', 'Status updated successfully');
-    // }
-
     public function update(Request $request, $id)
     {
         $data = PermohonanInformasi::findOrFail($id);
@@ -266,7 +214,14 @@ class PermohonanInformasiController extends Controller
     public function riwayatPermohonan()
     {
         // Ambil data dengan relasi
-        $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])->get();
+        $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])
+            ->whereHas('tandaBuktiPenerimaan', function ($query) {
+                $query->where('status', 'Ajukan Ulang');
+            })
+            ->orWhereHas('tandaBuktiPenerimaan.tandaKeputusan', function ($query) {
+                $query->whereIn('status', ['Ditolak', 'Diterima']);
+            })
+            ->get();
 
         // Proses setiap item dalam koleksi
         foreach ($data as $status) {
@@ -283,6 +238,21 @@ class PermohonanInformasiController extends Controller
                 'Diproses' => 'text-pending',
                 'Ditolak' => 'text-danger',
                 default => '',
+            };
+        }
+
+        foreach ($data as $icon) {
+            $icon->iconPenerimaan = match ($icon->tandaBuktiPenerimaan->status ?? '') {
+                'Mengunggu' => 'clock',
+                'Ajukan Ulang' => 'x',
+                default => ''
+            };
+
+            $icon->iconKeputusan = match ($icon->tandaBuktiPenerimaan->tandaKeputusan->status ?? '') {
+                'Diterima' => 'thumbs-up',
+                'Diproses' => 'clock',
+                'Ditolak' => 'x',
+                default => ''
             };
         }
 

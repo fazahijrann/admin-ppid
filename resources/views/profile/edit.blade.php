@@ -1,3 +1,20 @@
+<?php
+$role = str_replace('_', ' ', Auth::user()->role);
+$roleParts = explode(' ', $role);
+
+if (isset($roleParts[0])) {
+    // Mengubah kata pertama menjadi kapital huruf pertama
+    $roleParts[0] = ucfirst($roleParts[0]);
+}
+
+if (isset($roleParts[1])) {
+    // Mengubah kata kedua menjadi kapital seluruhnya
+    $roleParts[1] = strtoupper($roleParts[1]);
+}
+
+$formattedRole = implode(' ', $roleParts);
+
+?>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -39,7 +56,7 @@
                         <div class="ml-5">
                             <div class="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg">
                                 {{ Auth::user()->name }}</div>
-                            <div class="text-slate-500">PPID Bogor</div>
+                            <div class="text-slate-500">{{ $formattedRole }} | Kota Bogor</div>
                         </div>
                     </div>
                 </div>

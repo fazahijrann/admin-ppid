@@ -19,7 +19,7 @@
                 <div class="col-span-12 mt-6">
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
-                            Permohonan Informasi
+                            Riwayat Permohonan Informasi
                         </h2>
                     </div>
 
@@ -67,8 +67,9 @@
                                         </td>
                                         <td class="w-40">
                                             <div
-                                                class="flex items-center justify-center {{ $user->statusKeputusan }} {{ $user->statusPenerimaan }}">
-                                                <i data-lucide="clock" class="w-4 h-4 "></i>
+                                                class="flex items-center justify-center {{ $user->statusKeputusan }}{{ $user->statusPenerimaan }}">
+                                                <i data-lucide="{{ $user->iconPenerimaan }}{{ $user->iconKeputusan }}"
+                                                    class="w-4 h-4 "></i>
                                                 <p class="text-center ml-2">
                                                     @if ($user->tandaBuktiPenerimaan->status === 'Diteruskan')
                                                         {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status ?? '' }}
@@ -79,12 +80,6 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            {{-- @if ($user->tandaBuktiPenerimaan->tandaKeputusan->tgl_keputusan === null)
-                                                {{ $user->tandaBuktiPenerimaan->tgl_penerimaan ?? '' }}
-                                            @else
-                                                {{ $user->tandaBuktiPenerimaan->tandaKeputusan->tgl_keputusan }}
-                                            @endif --}}
-
                                             @if (optional($user->tandaBuktiPenerimaan->tandaKeputusan)->tgl_keputusan === null)
                                                 {{ optional($user->tandaBuktiPenerimaan)->tgl_penerimaan ?? 'Tanggal tidak tersedia' }}
                                             @else
@@ -104,11 +99,13 @@
                             <ul class="pagination">
                                 <li class="page-item">
                                     <a class="page-link" href="#"> <i class="w-4 h-4"
-                                            data-lucide="chevrons-left"></i> </a>
+                                            data-lucide="chevrons-left"></i>
+                                    </a>
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link" href="#"> <i class="w-4 h-4"
-                                            data-lucide="chevron-left"></i> </a>
+                                            data-lucide="chevron-left"></i>
+                                    </a>
                                 </li>
                                 <li class="page-item"> <a class="page-link" href="#">...</a>
                                 </li>
@@ -120,7 +117,8 @@
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link" href="#"> <i class="w-4 h-4"
-                                            data-lucide="chevron-right"></i> </a>
+                                            data-lucide="chevron-right"></i>
+                                    </a>
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link" href="#"> <i class="w-4 h-4"

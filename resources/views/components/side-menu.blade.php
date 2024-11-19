@@ -50,16 +50,7 @@
                     </li>
                 </ul>
             </li>
-            {{-- <li>
-                <a href="/file" class="side-menu {{ request()->routeIs('tampilFile') ? 'side-menu--active' : '' }}">
-                    <div class="side-menu__icon"> <i data-lucide="edit"></i> </div>
-                    <div class="side-menu__title">
-                        File
-                    </div>
-                </a>
-            </li> --}}
         </ul>
-
     </nav>
 @endif
 
@@ -100,7 +91,7 @@
                     </div>
                 </a>
             </li>
-
+            <li class="side-nav__devider my-6"></li>
             <li>
                 <a href="{{ route('riwayatPermohonan') }}"
                     class="side-menu {{ request()->routeIs('riwayatPermohonan') ? 'side-menu--active' : '' }}">
@@ -110,8 +101,6 @@
                     </div>
                 </a>
             </li>
-
-
         </ul>
     </nav>
 @endif
@@ -133,7 +122,6 @@
                     </div>
                 </a>
             </li>
-
             <li>
                 <a href="{{ route('permohonan.index') }}"
                     class="side-menu {{ request()->routeIs(['permohonan.index', 'permohonan.show']) ? 'side-menu--active' : '' }}">
@@ -143,13 +131,22 @@
                     </div>
                 </a>
             </li>
-
             <li>
                 <a href="{{ route('keberatan.index') }}"
                     class="side-menu {{ request()->routeIs(['keberatan.index']) ? 'side-menu--active' : '' }}">
                     <div class="side-menu__icon"> <i data-lucide="user-x"></i> </div>
                     <div class="side-menu__title">
                         Permohonan Keberatan Informasi
+                    </div>
+                </a>
+            </li>
+            <li class="side-nav__devider my-6"></li>
+            <li>
+                <a href="{{ route('riwayatPermohonan') }}"
+                    class="side-menu {{ request()->routeIs('riwayatPermohonan') ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
+                    <div class="side-menu__title">
+                        Riwayat Permohonan Informasi
                     </div>
                 </a>
             </li>
