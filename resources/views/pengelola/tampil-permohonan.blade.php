@@ -67,7 +67,7 @@
                                             <div class="flex items-center justify-center text-pending">
                                                 <i data-lucide="clock" class="w-4 h-4 "></i>
                                                 <p class="text-center ml-2">
-                                                    {{ $user->tandaBuktiPenerimaan->status }}
+                                                    {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status }}
                                                 </p>
                                             </div>
                                         </td>

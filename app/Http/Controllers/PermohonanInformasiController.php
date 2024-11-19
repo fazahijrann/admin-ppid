@@ -211,7 +211,7 @@ class PermohonanInformasiController extends Controller
                 } else {
                     $penerimaan->update([
                         'status' => 'Ajukan Ulang',
-                        'tgl_penerimaan' => null,
+                        'tgl_penerimaan' => now(),
                     ]);
                 }
             } elseif ($role === 'pejabat_ppid') {
@@ -244,10 +244,49 @@ class PermohonanInformasiController extends Controller
         //
     }
 
+    // public function riwayatPermohonan()
+    // {
+    //     $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])->get();
+
+
+    //     $text = match ($data->tandaBuktiPenerimaan->status) {
+    //         'Menunggu' => 'text-pending',
+    //         'Ajukan Ulang' => 'text-danger'
+    //     };
+
+    //     $text = match ($data->tandaBuktiPenerimaan->tandaKeputusan->status) {
+    //         'Diterima' => 'text-primary',
+    //         'Diproses' => 'text-pending',
+    //         'Ditolak ' => 'text-danegr'
+    //     };
+    //     // dd($data);
+    //     return view('riwayat.permohonan-informasi', compact('data', 'text'));
+    // }
+
     public function riwayatPermohonan()
     {
+        // Ambil data dengan relasi
         $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])->get();
-        // dd($data);
+
+        // Proses setiap item dalam koleksi
+        foreach ($data as $status) {
+            // Tentukan kelas berdasarkan status tandaBuktiPenerimaan
+            $status->statusPenerimaan = match ($status->tandaBuktiPenerimaan->status ?? '') {
+                'Menunggu' => 'text-pending',
+                'Ajukan Ulang' => 'text-danger',
+                default => '',
+            };
+
+            // Tentukan kelas berdasarkan status tandaKeputusan (jika ada)
+            $status->statusKeputusan = match ($status->tandaBuktiPenerimaan->tandaKeputusan->status ?? '') {
+                'Diterima' => 'text-primary',
+                'Diproses' => 'text-pending',
+                'Ditolak' => 'text-danger',
+                default => '',
+            };
+        }
+
+        // Kirim data ke view
         return view('riwayat.permohonan-informasi', compact('data'));
     }
 }
