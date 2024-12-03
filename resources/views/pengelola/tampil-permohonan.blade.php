@@ -11,6 +11,9 @@
         <!-- BEGIN: Content -->
         <div class="content">
 
+            <!-- INCLUDE: Modal Aksi -->
+            @include('pengelola.partials.modal')
+
             <!-- BEGIN: Top Bar -->
             <x-topbar />
             <!-- END: Top Bar -->
@@ -22,6 +25,7 @@
                             Permohonan Informasi
                         </h2>
                     </div>
+
                     <div class="intro-y overflow-auto mt-8 sm:mt-0">
                         <table class="table table-report sm:mt-2">
                             <thead>
@@ -62,29 +66,42 @@
                                         <td class="text-center">
                                             {{ $user->kategoriSalinan->jenis_salinan }}
                                         </td>
-                                        <td class="w-40">
-                                            <div class="flex items-center justify-center text-pending">
-                                                <i data-lucide="clock" class="w-4 h-4 "></i>
-                                                <p class="text-center ml-2">
-                                                    {{-- @if ($user->tandaBuktiPenerimaan && $user->tandaBuktiPenerimaan->status)
+                                        <td class="text-center">
+                                            <div class="btn btn-pending cursor-default">
+                                                <i data-lucide="clock" class="mr-2 w-5"></i>
+                                                <p class="text-center">
+                                                    @if (Auth::user()->role === 'petugas_ppid')
                                                         {{ $user->tandaBuktiPenerimaan->status }}
-                                                    @else
-                                                        Belum Diproses
-                                                    @endif --}}
-
-                                                    {{ $user->tandaBuktiPenerimaan->status }}
+                                                    @elseif (Auth::user()->role === 'pejabat_ppid')
+                                                        {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status }}
+                                                    @endif
                                                 </p>
                                             </div>
                                         </td>
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
-                                                <a class="flex items-center mr-4"
-                                                    href="{{ route('permohonan.show', $user->no_permohonan_informasi) }}">
-                                                    <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
-                                                    Detail </a>
-                                                <a class="flex items-center text-danger" href=""> <i
-                                                        data-lucide="trash-2" class="w-4 h-4 mr-1"></i>
-                                                    Delete </a>
+                                                @if (Auth::user()->role === 'petugas_ppid')
+                                                    <a class="flex items-center mr-4"
+                                                        href="{{ route('permohonan.show', $user->no_permohonan_informasi) }}">
+                                                        <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
+                                                        Detail </a>
+                                                @elseif (Auth::user()->role === 'pejabat_ppid')
+                                                    <a class="flex items-center mr-4"
+                                                        href="{{ route('permohonan.pdf', $user->no_permohonan_informasi) }}"
+                                                        target="_blank">
+                                                        <i data-lucide="eye" class="w-4 h-4 mr-1"></i>
+                                                        Lihat
+                                                    </a>
+                                                    <div class="text-center">
+                                                        <a href="javascript:;" data-tw-toggle="modal"
+                                                            data-tw-target="#modal-aksi{{ $user->id }}"
+                                                            class="flex items-center mr-4"><i data-lucide="settings"
+                                                                class="w-4 h-4 mr-1"></i>
+                                                            Aksi
+                                                        </a>
+                                                    </div>
+                                                    <!-- END: Modal Toggle -->
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
@@ -133,7 +150,6 @@
                     <!-- PAGINATION END -->
                 </div>
                 <!-- END: Tampil Pemohon Informasi -->
-
             </div>
         </div>
         <!-- END: Content -->

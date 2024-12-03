@@ -54,6 +54,6 @@ class PermohonanInformasi extends Model
 
     public function penerimaInformasi()
     {
-        return $this->belongTo(Penerima::class, 'id_penerima');
+        return $this->belongsTo(User::class, 'id_penerima');
     }
 }

@@ -50,21 +50,12 @@
                     </li>
                 </ul>
             </li>
-            {{-- <li>
-                <a href="/file" class="side-menu {{ request()->routeIs('tampilFile') ? 'side-menu--active' : '' }}">
-                    <div class="side-menu__icon"> <i data-lucide="edit"></i> </div>
-                    <div class="side-menu__title">
-                        File
-                    </div>
-                </a>
-            </li> --}}
         </ul>
-
     </nav>
 @endif
 
 
-@if (Auth::user()->role = ['petugas_ppid', 'pejabat_ppid'])
+@if (Auth::user()->role === 'petugas_ppid')
     <nav class="side-nav">
         <a href="/" class="intro-x flex items-center pl-5 pt-4">
             <img alt="Logo PPID" class="w-8" src="{{ asset('img/logo-ppid.png') }}">
@@ -100,11 +91,21 @@
                     </div>
                 </a>
             </li>
+            <li class="side-nav__devider my-6"></li>
+            <li>
+                <a href="{{ route('riwayatPermohonan') }}"
+                    class="side-menu {{ request()->routeIs('riwayatPermohonan') ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
+                    <div class="side-menu__title">
+                        Riwayat Permohonan Informasi
+                    </div>
+                </a>
+            </li>
         </ul>
     </nav>
 @endif
 
-{{-- 
+
 @if (Auth::user()->role === 'pejabat_ppid')
     <nav class="side-nav">
         <a href="/" class="intro-x flex items-center pl-5 pt-4">
@@ -122,24 +123,33 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('pemohonInformasi') }}"
-                    class="side-menu {{ request()->routeIs('pemohonInformasi') ? 'side-menu--active' : '' }}">
-                    <div class="side-menu__icon"> <i data-lucide="file-text"></i> </div>
+                <a href="{{ route('permohonan.index') }}"
+                    class="side-menu {{ request()->routeIs(['permohonan.index', 'permohonan.show']) ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="users"></i> </div>
                     <div class="side-menu__title">
-                        pemohon Informasi
+                        Permohonan Informasi
                     </div>
                 </a>
             </li>
             <li>
-                <a href="{{ route('pemohonKeberatan') }}"
-                    class="side-menu {{ request()->routeIs('pemohonKeberatan') ? 'side-menu--active' : '' }}">
-                    <div class="side-menu__icon"> <i data-lucide="files"></i> </div>
+                <a href="{{ route('keberatan.index') }}"
+                    class="side-menu {{ request()->routeIs(['keberatan.index']) ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="user-x"></i> </div>
                     <div class="side-menu__title">
-                        pemohon Keberatan Informasi
+                        Permohonan Keberatan Informasi
+                    </div>
+                </a>
+            </li>
+            <li class="side-nav__devider my-6"></li>
+            <li>
+                <a href="{{ route('riwayatPermohonan') }}"
+                    class="side-menu {{ request()->routeIs('riwayatPermohonan') ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
+                    <div class="side-menu__title">
+                        Riwayat Permohonan Informasi
                     </div>
                 </a>
             </li>
         </ul>
-
     </nav>
-@endif --}}
+@endif

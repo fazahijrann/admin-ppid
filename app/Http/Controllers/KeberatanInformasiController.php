@@ -37,10 +37,9 @@ class KeberatanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($no_keberatan_informasi)
     {
-        $data = KeberatanInformasi::findOrFail($id);
-        // dd($data);
+        $data = KeberatanInformasi::where('no_keberatan_informasi', $no_keberatan_informasi)->firstOrFail();
         return view('detail.keberatan-informasi', compact('data'));
     }
 

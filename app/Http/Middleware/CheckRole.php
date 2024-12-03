@@ -23,10 +23,9 @@ class CheckRole
 
         $user = Auth::user();
 
-
         // Jika role tidak sesuai, arahkan ke halaman yang tepat
         if (!in_array($user->role, $roles)) {
-            return redirect('login'); // Halaman unauthorized
+            abort(404); // Mengarahkan ke halaman 404
         }
 
         return $next($request);
