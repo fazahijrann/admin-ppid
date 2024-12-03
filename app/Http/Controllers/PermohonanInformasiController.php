@@ -6,7 +6,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PermohonanInformasi;
 use App\Http\Controllers\Controller;
+use App\Models\BiayaInformasi;
+use App\Models\JenisInformasi;
 use App\Models\KategoriPemohon;
+use App\Models\SumberInformasi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -32,8 +35,6 @@ class PermohonanInformasiController extends Controller
                 })
                 ->get();
         }
-        // dd($data);
-        // $data = PermohonanInformasi::get();
         return view('pengelola.tampil-permohonan', compact('data'));
     }
 
@@ -56,25 +57,6 @@ class PermohonanInformasiController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show($no_permohonan_informasi)
-    // {
-    //     $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
-    //     // dd($data);
-    //     return view('detail.permohonan-informasi', compact('data'));
-    // }
-
-    // public function show($no_permohonan_informasi)
-    // {
-    //     $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
-
-    //     // Cek jika data sudah diproses (Diterima atau Ditolak)
-    //     if ($data->tandaBuktiPenerimaan->status === 'Diterima' || $data->tandaBuktiPenerimaan->tandaKeputusan === 'Ditolak') {
-    //         abort(404);
-    //     }
-
-    //     return view('detail.permohonan-informasi', compact('data'));
-    // }
-
     public function show($no_permohonan_informasi)
     {
         $data = PermohonanInformasi::where('no_permohonan_informasi', $no_permohonan_informasi)->firstOrFail();
@@ -102,9 +84,6 @@ class PermohonanInformasiController extends Controller
                 abort(404);
             }
         }
-
-
-
         return view('detail.permohonan-informasi', compact('data'));
     }
 
@@ -148,7 +127,6 @@ class PermohonanInformasiController extends Controller
                         'tgl_penerimaan' => now(),
                         'status' => 'Diteruskan',
                     ]);
-
                     // Buat entri baru pada tandaKeputusan
                     $keputusan->create([
                         'tanda_buktipenerimaan_id' => $penerimaan->id,
@@ -165,11 +143,30 @@ class PermohonanInformasiController extends Controller
             } elseif ($role === 'pejabat_ppid') {
                 // Logika khusus pejabat_ppid: hanya mengubah data di tabel keputusan
                 if ($request->has('action') && $request->input('action') === 'terima') {
+                    // Langkah 1: Buat data di tabel sumber_informasi
+                    $sumberInformasi = SumberInformasi::create([
+                        'jenis_sumber' => $request->input('jenis_sumber'),
+                    ]);
+
+                    // Langkah 2: Buat data di tabel biaya_informasi
+                    $biayaInformasi = BiayaInformasi::create([
+                        'nama' => $data->pemohon->nama, // Sesuaikan dengan data yang dikirim
+                        'biaya' => $request->input('biaya_informasi'),
+                    ]);
+
+                    // Langkah 3: Buat data di tabel jenis_informasi
+                    $jenisInformasi = JenisInformasi::create([
+                        'jenis_informasi' => $request->input('jenis_informasi'),
+                    ]);
+
+                    // Langkah 4: Perbarui tabel keputusan_informasi dengan ID dari tabel terkait
                     $keputusan->update([
                         'status' => 'Diterima',
                         'tgl_keputusan' => now(),
                         'keterangan' => $request->input('keterangan'),
-                        'updated_at' => now(),
+                        'sumber_informasi_id' => $sumberInformasi->id, // Ambil ID dari tabel sumber_informasi
+                        'biaya_informasi_id' => $biayaInformasi->id,   // Ambil ID dari tabel biaya_informasi
+                        'jenis_informasi_id' => $jenisInformasi->id,   // Ambil ID dari tabel jenis_informasi
                     ]);
                 } else {
                     $keputusan->update([
@@ -189,27 +186,8 @@ class PermohonanInformasiController extends Controller
      */
     public function destroy(PermohonanInformasi $permohonanInformasi)
     {
-        //
+        abort(404);
     }
-
-    // public function riwayatPermohonan()
-    // {
-    //     $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])->get();
-
-
-    //     $text = match ($data->tandaBuktiPenerimaan->status) {
-    //         'Menunggu' => 'text-pending',
-    //         'Ajukan Ulang' => 'text-danger'
-    //     };
-
-    //     $text = match ($data->tandaBuktiPenerimaan->tandaKeputusan->status) {
-    //         'Diterima' => 'text-primary',
-    //         'Diproses' => 'text-pending',
-    //         'Ditolak ' => 'text-danegr'
-    //     };
-    //     // dd($data);
-    //     return view('riwayat.permohonan-informasi', compact('data', 'text'));
-    // }
 
     public function riwayatPermohonan()
     {
@@ -234,10 +212,25 @@ class PermohonanInformasiController extends Controller
 
             // Tentukan kelas berdasarkan status tandaKeputusan (jika ada)
             $status->statusKeputusan = match ($status->tandaBuktiPenerimaan->tandaKeputusan->status ?? '') {
-                'Diterima' => 'text-primary',
+                'Diterima' => 'text-success',
                 'Diproses' => 'text-pending',
                 'Ditolak' => 'text-danger',
                 default => '',
+            };
+        }
+
+        foreach ($data as $btn) {
+            $btn->btnPenerimaan = match ($btn->tandaBuktiPenerimaan->status ?? '') {
+                'Mengunggu' => 'btn-pending',
+                'Ajukan Ulang' => 'btn-danger',
+                default => ''
+            };
+
+            $btn->btnKeputusan = match ($btn->tandaBuktiPenerimaan->tandaKeputusan->status ?? '') {
+                'Diterima' => 'btn-primary',
+                'Diproses' => 'btn-pending',
+                'Ditolak' => 'btn-danger',
+                default => ''
             };
         }
 
@@ -249,7 +242,7 @@ class PermohonanInformasiController extends Controller
             };
 
             $icon->iconKeputusan = match ($icon->tandaBuktiPenerimaan->tandaKeputusan->status ?? '') {
-                'Diterima' => 'thumbs-up',
+                'Diterima' => 'check',
                 'Diproses' => 'clock',
                 'Ditolak' => 'x',
                 default => ''

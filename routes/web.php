@@ -10,6 +10,7 @@ use App\Http\Controllers\KelolaPetugasController;
 
 use App\Http\Controllers\PemohonController;
 use App\Http\Controllers\KeberatanInformasiController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PermohonanInformasiController;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -28,6 +29,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
+Route::middleware(['auth', 'verified', CheckRole::class . ':pejabat_ppid'])->group(function () {
+    Route::get('/permohonan/{no_permohonan_informasi}/pdf', [PdfController::class, 'permohonan'])->name('permohonan.pdf');
+    Route::get('/keberatan/{no_keberatan_informasi}/pdf', [PdfController::class, 'keberatan'])->name('keberatan.pdf');
+});
 
 Route::middleware(['auth', 'verified', CheckRole::class . ':superadmin'])->group(function () {
     // Hanya superadmin yang bisa kelola petugas dan pejabat

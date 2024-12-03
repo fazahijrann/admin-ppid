@@ -36,4 +36,9 @@ class KeberatanInformasi extends Model
     {
         return $this->hasOne(TanggapanKeberatan::class, 'keberatan_informasi_id');
     }
+
+    public function keputusanInformasi()
+    {
+        return $this->belongsTo(KeputusanInformasi::class, 'keputusan_informasi_id');
+    }
 }

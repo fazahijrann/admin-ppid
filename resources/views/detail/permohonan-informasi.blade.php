@@ -38,12 +38,11 @@
                     <div class="intro-y box">
                         <div id="input">
                             <div class="p-5">
-                                @if (Auth::user()->role === 'petugas_ppid')
+                                @if ($data->pemohon->id_kategori == 1)
                                     <div class="preview">
-                                    @elseif (Auth::user()->role === 'pejabat_ppid')
+                                    @else
                                         <div class="preview grid grid-cols-2 gap-x-8">
                                 @endif
-                                {{-- Form Petugas PPID --}}
                                 <div>
                                     <p class="text-lg font-semibold border-b-2">
                                         Identitas Pemohon Informasi
@@ -89,8 +88,9 @@
                                     <div class="mt-3 ">
                                         <div>
                                             <label for="file-ktp" class="form-label font-medium">File KTP</label>
-                                            <input id="file-ktp" type="file" class="form-control" value=""
-                                                disabled>
+                                            <img src="{{ 'http://ppid-baru.test/storage/' . $data->pemohon->file_ktp }}"
+                                                alt="File KTP" class="max-w-80 bg-slate-200 p-3 shadow-md rounded-md">
+
                                         </div>
                                     </div>
                                     <div class="mt-3">
@@ -99,83 +99,47 @@
                                             value="{{ $data->pemohon->pekerjaan }}" disabled>
                                     </div>
                                 </div>
-
-                                {{-- Form Pejabat PPID --}}
-                                @if (Auth::user()->role === 'pejabat_ppid')
+                                @if ($data->pemohon->id_kategori == 2)
                                     <div>
                                         <p class="text-lg font-semibold border-b-2">
-                                            Detail Permohonan
+                                            Identitas Kuasa
                                         </p>
                                         <div class="mt-3">
-                                            <label for="rincian-informasi" class="form-label font-medium">Rincian
-                                                Informasi</label>
-                                            <input id="rincian-informasi" type="text" class="form-control"
-                                                value="{{ $data->rincian_informasi }}" disabled>
+                                            <label for="nama-kuasa" class="form-label font-medium">Nama Kuasa</label>
+                                            <input id="nama-kuasa" type="text" class="form-control"
+                                                value="{{ $data->pemohon->nama_kuasa }}" disabled>
                                         </div>
                                         <div class="mt-3">
-                                            <label for="tujuan-informasi" class="form-label font-medium">Tujuan
-                                                Informasi</label>
-                                            <input id="tujuan-informasi" type="text" class="form-control"
-                                                value="{{ $data->tujuan_informasi }}" disabled>
+                                            <label for="alamat-kuasa" class="form-label font-medium">Alamat
+                                                Kuasa</label>
+                                            <input id="alamat-kuasa" type="text" class="form-control"
+                                                value="{{ $data->pemohon->alamat_kuasa }}" disabled>
                                         </div>
                                         <div class="mt-3">
-                                            <label for="kategori-memperoleh" class="form-label font-medium">Kategori
-                                                Memperoleh</label>
-                                            <input id="kategori-memperoleh" type="text" class="form-control"
-                                                value="{{ $data->kategoriMemperoleh->jenis_memperoleh }}" disabled>
+                                            <label for="no-tlp-kuasa" class="form-label font-medium">Nomor Telfon
+                                                Kuasa</label>
+                                            <input id="no-tlp-kuasa" type="text" class="form-control"
+                                                value="{{ $data->pemohon->no_tlp_kuasa }}" disabled>
                                         </div>
                                         <div class="mt-3">
-                                            <label for="kategori-salinan" class="form-label font-medium">Kategori
-                                                Salinan</label>
-                                            <input id="kategori-salinan" type="text" class="form-control"
-                                                value="{{ $data->kategoriSalinan->jenis_salinan }}" disabled>
+                                            <label for="sk" class="form-label font-medium">SK Badan
+                                                Hukum</label>
                                         </div>
-                                        <div class="mt-3">
-                                            <label for="keterangan" class="form-label font-medium">Keterangan</label>
-                                            <input id="keterangan" type="text" class="form-control"
-                                                placeholder="Keterangan untuk pemohon" name="keterangan">
-                                        </div>
-                                        <div class="mt-3">
-                                            <label for="file-upload" class="form-label font-medium">File <span
-                                                    class="text-red-600 font-normal text-xs">
-                                                    Bila Perlu</span>
-                                            </label>
-                                            <div class="dropzone">
-                                                <div class="fallback">
-                                                    <input name="file" type="file" id="file-upload" multiple
-                                                        hidden />
-                                                </div>
-                                                <div class="dz-message" data-dz-message>
-                                                    <div class="text-lg font-medium">Drop files here or click to
-                                                        upload.
-                                                    </div>
-                                                    <div class="text-slate-500"> This is just a demo dropzone. Selected
-                                                        files are <span class="font-medium">not</span> actually
-                                                        uploaded.
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="mt-1">
+                                            <a href="{{ 'http://ppid-baru.test/storage/' . $data->pemohon->sk_badanhukum }}"
+                                                target="_blank" class="btn btn-primary"> Lihat Dokumen
+                                            </a>
                                         </div>
                                     </div>
                                 @endif
-                            </div>
-
-                            <div class="mt-5 intro-y">
-                                @if (Auth::user()->role === 'petugas_ppid')
+                                <div class="mt-5 intro-y">
                                     <button type="submit" name="action" value="lanjutkan"
                                         class="btn btn-primary">Lanjutkan</button>
                                     <button type="submit" name="action" value="batal"
                                         class="btn btn-danger ml-3">Kembalikan Pemohonan</button>
-                                @elseif (Auth::user()->role === 'pejabat_ppid')
-                                    <button type="submit" name="action" value="terima"
-                                        class="btn btn-primary">Terima
-                                        Permohonan</button>
-                                    <button type="submit" name="action" value="tolak"
-                                        class="btn btn-danger ml-3">Tolak Permohonan</button>
-                                @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
                 </form>
             </div>
             <!-- END: Input -->

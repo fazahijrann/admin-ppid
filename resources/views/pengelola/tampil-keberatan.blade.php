@@ -32,7 +32,7 @@
                                     <th class="text-center whitespace-nowrap">NIK</th>
                                     <th class="text-center whitespace-nowrap">Nomor Keberatan Informasi</th>
                                     <th class="text-center whitespace-nowrap">Kategori Keberatan</th>
-                                    <th class="text-center whitespace-nowrap">Keterangan</th>
+                                    <th class="text-center whitespace-nowrap">Kasus Posisi</th>
                                     <th class="text-center whitespace-nowrap">Status</th>
                                     <th class="text-center whitespace-nowrap">Aksi</th>
                                 </tr>
@@ -59,27 +59,32 @@
                                         <td class="text-center">
                                             {{ $user->no_keberatan_informasi }}
                                         </td>
-                                        <td class="text-center w-60">
+                                        <td class="text-center">
                                             {{ $user->keberatanInformasi->jenis_keberatan }}
                                         </td>
                                         <td class="text-center">
                                             {{ $user->keterangan }}
                                         </td>
-                                        <td class="w-40">
-                                            <div class="flex items-center justify-center text-pending">
-                                                <i data-lucide="clock" class="w-4 h-4 "></i>
-                                                <p class="text-center">Menunggu Verifikasi </p>
+                                        <td class="text-center w-20">
+                                            <div class="btn btn-pending cursor-default">
+                                                <i data-lucide="clock" class="mr-2 w-5"></i>
+                                                <p class="text-center">Menunggu</p>
                                             </div>
                                         </td>
+
                                         <td class="table-report__action w-56">
                                             <div class="flex justify-center items-center">
-                                                <a class="flex items-center mr-4"
-                                                    href="{{ route('keberatan.show', $user->id) }}">
-                                                    <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
-                                                    Detail </a>
-                                                <a class="flex items-center text-danger" href=""> <i
-                                                        data-lucide="trash-2" class="w-4 h-4 mr-1"></i>
-                                                    Delete </a>
+                                                @if (Auth::user()->role === 'petugas_ppid')
+                                                    <a class="flex items-center mr-4"
+                                                        href="{{ route('keberatan.show', $user->no_keberatan_informasi) }}">
+                                                        <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
+                                                        Detail </a>
+                                                @elseif (Auth::user()->role === 'pejabat_ppid')
+                                                    <a class="flex items-center mr-4"
+                                                        href="{{ route('keberatan.pdf', $user->no_keberatan_informasi) }}">
+                                                        <i data-lucide="eye" class="w-4 h-4 mr-1"></i>
+                                                        Lihat </a>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>

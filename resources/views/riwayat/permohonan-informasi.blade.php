@@ -65,8 +65,20 @@
                                         <td class="text-center">
                                             {{ $user->kategoriSalinan->jenis_salinan }}
                                         </td>
-                                        <td class="w-40">
+                                        <td class="text-center">
                                             <div
+                                                class="btn {{ $user->btnPenerimaan }}{{ $user->btnKeputusan }} cursor-default w-full">
+                                                <i data-lucide="{{ $user->iconPenerimaan }}{{ $user->iconKeputusan }}"
+                                                    class="mr-2"></i>
+                                                <p class="w-full">
+                                                    @if ($user->tandaBuktiPenerimaan->status === 'Diteruskan')
+                                                        {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status ?? '' }}
+                                                    @else
+                                                        {{ $user->tandaBuktiPenerimaan->status }}
+                                                    @endif
+                                                </p>
+                                            </div>
+                                            {{-- <div
                                                 class="flex items-center justify-center {{ $user->statusKeputusan }}{{ $user->statusPenerimaan }}">
                                                 <i data-lucide="{{ $user->iconPenerimaan }}{{ $user->iconKeputusan }}"
                                                     class="w-4 h-4 "></i>
@@ -77,7 +89,7 @@
                                                         {{ $user->tandaBuktiPenerimaan->status }}
                                                     @endif
                                                 </p>
-                                            </div>
+                                            </div> --}}
                                         </td>
                                         <td class="text-center">
                                             @if (optional($user->tandaBuktiPenerimaan->tandaKeputusan)->tgl_keputusan === null)
