@@ -28,44 +28,68 @@
                 <div class="h-screen xl:h-auto flex py-5 xl:py-0 my-10 xl:my-0">
                     <div
                         class="my-auto mx-auto xl:ml-20 bg-white xl:bg-transparent px-5 sm:px-8 py-8 xl:p-0 rounded-md shadow-md xl:shadow-none w-full sm:w-3/4 lg:w-2/4 xl:w-auto">
+
+
+                        <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
+                            Masuk
+                        </h2>
+                        <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">Dashboard Admin PPID
+                            Pemerintah
+                            Kota Bogor</div>
+
+
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
-
-                            <h2 class="intro-x font-bold text-2xl xl:text-3xl text-center xl:text-left">
-                                Masuk
-                            </h2>
-                            <div class="intro-x mt-2 text-slate-400 xl:hidden text-center">Dashboard Admin PPID
-                                Pemerintah
-                                Kota Bogor</div>
                             <div class="intro-x mt-8">
                                 <div>
                                     <x-input-label for="email" :value="__('Email')" />
-                                    <x-text-input id="email"
-                                        class="intro-x login__input form-control py-3 px-4 block" type="email"
-                                        name="email" :value="old('email')" required autofocus />
+                                    <x-text-input id="email" class="login__input form-control py-3 px-4 block"
+                                        type="email" name="email" :value="old('email')" autofocus
+                                        autocomplete="username" />
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
 
                                 <div class="mt-4">
                                     <x-input-label for="password" :value="__('Password')" />
-                                    <x-text-input id="password"
-                                        class="intro-x login__input form-control py-3 px-4 block" type="password"
-                                        name="password" required autocomplete="current-password" />
+                                    <x-text-input id="password" class="login__input form-control py-3 px-4 block"
+                                        type="password" name="password" autocomplete="current_password" />
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
 
-                            </div>
+                                {{-- Captcha --}}
+                                <div class="mt-4">
+                                    <x-input-label for="captcha" :value="__('Captcha')"></x-input-label>
+                                    <div class="flex">
+                                        <img src="{{ captcha_src('math') }}" alt="captcha" id="captcha-image">
+                                        <button type="button" onclick="refreshCaptcha()"
+                                            class="btn btn-primary ml-4">&#x21bb;</button>
+                                    </div>
+                                    <x-text-input id="captcha" name="captcha" class="block mt-1 w-full" type="text"
+                                        autocomplete="off" />
 
-                            <div class="flex items-center justify-end mt-4 intro-x">
-                                <x-primary-button class="mt-4">
-                                    {{ __('Log in') }}
-                                </x-primary-button>
-                            </div>
+                                    <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
+
+                                </div>
+
+                                <div class="flex items-center justify-end mt-4 intro-x">
+                                    <x-primary-button class="mt-4">
+                                        {{ __('Log in') }}
+                                    </x-primary-button>
+                                </div>
                         </form>
                     </div>
                 </div>
                 <!-- END: Login Form -->
             </div>
         </div>
+
+
+        <script>
+            function refreshCaptcha() {
+                const captchaImage = document.getElementById('captcha-image');
+                captchaImage.src = '{{ captcha_src('math') }}' + '?' + Date.now();
+            }
+        </script>
     </body>
+
 </x-guest-layout>
