@@ -56,7 +56,7 @@
                                         placeholder="********" />
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
-                                `
+
                                 {{-- Captcha | Curently Non Active While Developing -> LoginRequest.php --}}
                                 <div class="mt-4">
                                     <x-input-label for="captcha" :value="__('Captcha')"></x-input-label>
