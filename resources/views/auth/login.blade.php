@@ -44,28 +44,30 @@
                                 <div>
                                     <x-input-label for="email" :value="__('Email')" />
                                     <x-text-input id="email" class="login__input form-control py-3 px-4 block"
-                                        type="email" name="email" :value="old('email')" autofocus
-                                        autocomplete="username" />
+                                        type="email" name="email" :value="old('email')" autofocus autocomplete="email"
+                                        placeholder="ppid@gmail.com" />
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
 
                                 <div class="mt-4">
                                     <x-input-label for="password" :value="__('Password')" />
                                     <x-text-input id="password" class="login__input form-control py-3 px-4 block"
-                                        type="password" name="password" autocomplete="current_password" />
+                                        type="password" name="password" autocomplete="current_password"
+                                        placeholder="********" />
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                                 </div>
-
-                                {{-- Captcha --}}
+`
+                                {{-- Captcha | Curently Non Active While Developing -> LoginRequest.php --}}
                                 <div class="mt-4">
                                     <x-input-label for="captcha" :value="__('Captcha')"></x-input-label>
                                     <div class="flex">
-                                        <img src="{{ captcha_src('math') }}" alt="captcha" id="captcha-image">
+                                        <img src="{{ captcha_src('flat') }}" alt="captcha" id="captcha-image">
                                         <button type="button" onclick="refreshCaptcha()"
                                             class="btn btn-primary ml-4">&#x21bb;</button>
                                     </div>
-                                    <x-text-input id="captcha" name="captcha" class="block mt-1 w-full" type="text"
-                                        autocomplete="off" />
+                                    <x-text-input id="captcha" name="captcha"
+                                        class="login__input form-control py-3 px-4 mt-2 block " type="text"
+                                        autocomplete="off" placeholder="Masukkan Captcha" />
 
                                     <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
 
@@ -87,7 +89,7 @@
         <script>
             function refreshCaptcha() {
                 const captchaImage = document.getElementById('captcha-image');
-                captchaImage.src = '{{ captcha_src('math') }}' + '?' + Date.now();
+                captchaImage.src = '{{ captcha_src('flat') }}' + '?' + Date.now();
             }
         </script>
     </body>
