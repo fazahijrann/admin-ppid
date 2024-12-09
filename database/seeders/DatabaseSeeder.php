@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        Penerima::factory()->create([
+        Penerima::create([
             'id' => '1',
             'nama' => 'superadmin',
             'email' => 'superadmin@gmail.com',
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'superadmin',
         ]);
 
-        Penerima::factory()->create([
+        Penerima::create([
             'id' => '2',
             'nama' => 'petugas',
             'email' => 'petugas@gmail.com',
@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'petugas_ppid',
         ]);
 
-        Penerima::factory()->create([
+        Penerima::create([
             'id' => '3',
             'nama' => 'pejabat',
             'email' => 'pejabat@gmail.com',

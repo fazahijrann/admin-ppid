@@ -77,7 +77,7 @@
                 <td width="335">{{ $data->pemohon->nik }}</td>
             </tr>
             <tr>
-                <td width="180">No. Telepon/Email</td>
+                <td width="180">No. Telepon / Email</td>
                 <td width="10">:</td>
                 <td width="335">{{ $data->pemohon->no_tlp }} / {{ $data->pemohon->email }}</td>
             </tr>
@@ -103,21 +103,6 @@
             </tr>
         </table>
         <br /><br />
-        {{-- <table width="450">
-            <tr>
-                <td>
-                    {!! $usaha->keterangan !!}
-                </td>
-            </tr>
-            <br /><br />
-        </table>
-        <br /><br /> --}}
-        {{-- <table width="450">
-            <tr>
-                <td>Demikian surat keterangan ini kami perbuat untuk dapat dipergunakan seperlunya.</td>
-            </tr>
-        </table> --}}
-        {{-- <br /><br /><br /> --}}
         <table style="width: 540; text-align: center;">
             <tr>
                 <td style="width: 50%; vertical-align: middle;">
@@ -125,7 +110,9 @@
                         <tr>
                             <td style="vertical-align: middle;">
                                 <p style="padding-top: 30px">Petugas Penerima Informasi</p>
-                                <p style="margin-top: 100px">{{ $data->penerimaInformasi->name }}</p>
+                                <p style="margin-top: 100px">
+                                    {{ $data->penerimaInformasi->name ?? 'Belum Diterima Oleh Petugas' }}
+                                </p>
                             </td>
                         </tr>
                     </table>
@@ -134,7 +121,8 @@
                     <table style="width: 90%; height: 150px; margin: auto; text-align: center;">
                         <tr>
                             <td style="vertical-align: middle;">
-                                <p>Bogor, {{ date('d F Y', strtotime($data->tgl_permohonan)) }}</p>
+                                <p>Bogor, {{ \Carbon\Carbon::parse($data->tgl_permohonan)->translatedFormat('d F Y') }}
+                                </p>
                                 <p>Pemohon Informasi</p>
                                 <p style="margin-top: 100px">{{ $data->pemohon->nama }}</p>
                             </td>

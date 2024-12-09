@@ -23,7 +23,7 @@ class PdfController extends Controller
             $pdf = PDF::loadview('pdf.permohonan-informasi', compact('data'))->setPaper('f4', 'potrait');
         }
         // return view('pdf.permohonan-informasi', compact('data'));
-        return $pdf->stream('Permohonan Informasi-' . $data->no_permohonan_informasi . '.pdf');
+        return $pdf->stream('Permohonan Informasi - ' . $data->no_permohonan_informasi . '.pdf');
     }
 
     public function keberatan($no_keberatan_informasi)

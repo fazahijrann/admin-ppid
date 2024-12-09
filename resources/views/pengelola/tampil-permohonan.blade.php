@@ -94,7 +94,7 @@
                                                     </a>
                                                     <div class="text-center">
                                                         <a href="javascript:;" data-tw-toggle="modal"
-                                                            data-tw-target="#modal-aksi{{ $user->id }}"
+                                                            data-tw-target="#modal-aksi-{{ $user->id }}"
                                                             class="flex items-center mr-4"><i data-lucide="settings"
                                                                 class="w-4 h-4 mr-1"></i>
                                                             Aksi

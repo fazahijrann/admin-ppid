@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PermohonanInformasi;
 use App\Http\Controllers\Controller;
 use App\Models\BiayaInformasi;
+use App\Models\BuktiPenerimaanInformasi;
 use App\Models\JenisInformasi;
 use App\Models\KategoriPemohon;
 use App\Models\SumberInformasi;
@@ -20,6 +21,8 @@ class PermohonanInformasiController extends Controller
      */
     public function index()
     {
+        $sumbers = SumberInformasi::all();
+        $jenisinf = JenisInformasi::all();
         $data = Auth::user();
         if ($data->role === 'petugas_ppid') {
             $data = PermohonanInformasi::with('pemohon')
@@ -35,7 +38,7 @@ class PermohonanInformasiController extends Controller
                 })
                 ->get();
         }
-        return view('pengelola.tampil-permohonan', compact('data'));
+        return view('pengelola.tampil-permohonan', compact('data', 'sumbers', 'jenisinf'));
     }
 
     /**
@@ -119,6 +122,8 @@ class PermohonanInformasiController extends Controller
         // Jika $penerimaan ada, ambil juga tandaKeputusan terkait dan simpan dalam variabel $keputusan
         if ($penerimaan) {
             $keputusan = $penerimaan->tandaKeputusan();
+            $keputusaninf = $keputusan->first();
+
 
             if ($role === 'petugas_ppid') {
                 // Logika khusus petugas_ppid
@@ -141,39 +146,55 @@ class PermohonanInformasiController extends Controller
                     ]);
                 }
             } elseif ($role === 'pejabat_ppid') {
-                // Logika khusus pejabat_ppid: hanya mengubah data di tabel keputusan
                 if ($request->has('action') && $request->input('action') === 'terima') {
-                    // Langkah 1: Buat data di tabel sumber_informasi
-                    $sumberInformasi = SumberInformasi::create([
-                        'jenis_sumber' => $request->input('jenis_sumber'),
-                    ]);
+                    // Langkah 1: Ambil ID dari sumber_informasi dan jenis_informasi yang sudah ada
+                    $sumberInformasi = SumberInformasi::find($request->input('sumber_informasi_id'));
+                    $jenisInformasi = JenisInformasi::find($request->input('jenis_informasi_id'));
 
-                    // Langkah 2: Buat data di tabel biaya_informasi
+                    // Pastikan data pemohon ada
+                    $pemohonNama = isset($data->pemohon) ? $data->pemohon->nama : 'Nama Pemohon Tidak Ditemukan';
+
+                    // Langkah 2: Buat data biaya_informasi
                     $biayaInformasi = BiayaInformasi::create([
-                        'nama' => $data->pemohon->nama, // Sesuaikan dengan data yang dikirim
+                        'nama' => $pemohonNama, // Sesuaikan dengan data yang dikirim
                         'biaya' => $request->input('biaya_informasi'),
                     ]);
 
-                    // Langkah 3: Buat data di tabel jenis_informasi
-                    $jenisInformasi = JenisInformasi::create([
-                        'jenis_informasi' => $request->input('jenis_informasi'),
+                    BuktiPenerimaanInformasi::create([
+                        'keputusan_informasi_id' => $keputusaninf->id,
+                        'waktu' => $request->input('waktu'),
+                        'tgl_penerimaan' => now(),
                     ]);
 
-                    // Langkah 4: Perbarui tabel keputusan_informasi dengan ID dari tabel terkait
-                    $keputusan->update([
-                        'status' => 'Diterima',
-                        'tgl_keputusan' => now(),
-                        'keterangan' => $request->input('keterangan'),
-                        'sumber_informasi_id' => $sumberInformasi->id, // Ambil ID dari tabel sumber_informasi
-                        'biaya_informasi_id' => $biayaInformasi->id,   // Ambil ID dari tabel biaya_informasi
-                        'jenis_informasi_id' => $jenisInformasi->id,   // Ambil ID dari tabel jenis_informasi
-                    ]);
-                } else {
+
+                    // Pastikan sumber_informasi dan jenis_informasi ada
+                    if ($sumberInformasi && $jenisInformasi) {
+                        // Langkah 3: Perbarui tabel keputusan_informasi dengan ID dari tabel terkait
+                        $keputusan->update([
+                            'status' => 'Diterima',
+                            'tgl_keputusan' => now(),
+                            'keterangan' => $request->input('keterangan'),
+                            'sumber_informasi_id' => $sumberInformasi->id, // Ambil ID dari tabel sumber_informasi
+                            'biaya_informasi_id' => $biayaInformasi->id,
+                            'jenis_informasi_id' => $jenisInformasi->id, // Ambil ID dari tabel jenis_informasi
+                        ]);
+                    } else {
+                        // Jika sumber_informasi atau jenis_informasi tidak ditemukan
+                        return response()->json(['error' => 'Sumber atau jenis informasi tidak ditemukan'], 404);
+                    }
+                } elseif ($request->has('action') && $request->input('action') === 'tolak') {
+                    // Langkah 4: Jika aksi tidak diterima, ubah status menjadi Ditolak
                     $keputusan->update([
                         'status' => 'Ditolak',
                         'tgl_keputusan' => now(),
                         'keterangan' => $request->input('keterangan'),
                         'updated_at' => now(),
+                    ]);
+
+                    BuktiPenerimaanInformasi::create([
+                        'keputusan_informasi_id' => $keputusaninf->id,
+                        'waktu' => $request->input('waktu'),
+                        'tgl_penerimaan' => now(),
                     ]);
                 }
             }
