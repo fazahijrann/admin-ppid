@@ -23,15 +23,15 @@ class PermohonanInformasiController extends Controller
     {
         $sumbers = SumberInformasi::all();
         $jenisinf = JenisInformasi::all();
-        $data = Auth::user();
-        if ($data->role === 'petugas_ppid') {
+        $user = Auth::user();
+        if ($user->role === 'petugas_ppid') {
             $data = PermohonanInformasi::with('pemohon')
                 ->whereHas('tandaBuktiPenerimaan', function ($query) {
                     $query->where('status', 'Menunggu');
                 })
                 ->get();
             // dd($data);   
-        } elseif ($data->role === 'pejabat_ppid') {
+        } elseif ($user->role === 'pejabat_ppid') {
             $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])
                 ->whereHas('tandaBuktiPenerimaan.tandaKeputusan', function ($query) {
                     $query->where('status', 'Diproses');
@@ -123,8 +123,6 @@ class PermohonanInformasiController extends Controller
         if ($penerimaan) {
             $keputusan = $penerimaan->tandaKeputusan();
             $keputusaninf = $keputusan->first();
-
-
             if ($role === 'petugas_ppid') {
                 // Logika khusus petugas_ppid
                 if ($request->has('action') && $request->input('action') === 'lanjutkan') {

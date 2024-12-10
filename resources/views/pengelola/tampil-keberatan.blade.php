@@ -68,7 +68,7 @@
                                         <td class="text-center w-20">
                                             <div class="btn btn-pending cursor-default">
                                                 <i data-lucide="clock" class="mr-2 w-5"></i>
-                                                <p class="text-center">Menunggu</p>
+                                                <p class="text-center">{{ $user->status }}</p>
                                             </div>
                                         </td>
 

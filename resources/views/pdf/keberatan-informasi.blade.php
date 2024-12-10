@@ -21,30 +21,26 @@
     <center>
         <table width="535">
             <tr>
-                <!-- Kolom untuk Logo -->
-                <td style="width: 15%; vertical-align: middle;">
-                    <img src="{{ asset('img/logopemkot.svg') }}" width="110" height="110"
-                        style="padding-right: 0;" />
-                </td>
                 <!-- Kolom untuk Teks -->
                 <td
-                    style="width: 85%; vertical-align: middle; text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 13px;">
-                    <center>
+                    style="width: 100%; vertical-align: middle; text-align: center; font-family: 'Times New Roman', Times, serif; font-size: 13px;">
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/logopemkot.png'))) }}"
+                        alt="Logo" width="90" height="120" style="position: absolute; z-index: 10; top: -10">
+                    <center style="margin-left: 20">
                         <font size="4"><b>PEMERINTAH KOTA BOGOR</b> </font><br />
                         <font size="4"><b>DINAS KOMUNIKASI DAN INFORMATIKA</b></font><br />
                         <font size="3">Jl. Ir. H. Juanda No. 10, Bogor Tengah, Kota Bogor, Jawa Barat 16121</font>
                         <br />
                         <font size="3">Telp. (0251) 8321075 Faksimile (0251) 8326530</font><br />
-                        <font size="3">https://kominfo.kotabogor.go.id/</font><br />
+                        <font size="3">https://kominfo.kotabogor.go.id/
+                        </font><br />
                     </center>
                 </td>
             </tr>
             <td colspan="2">
                 <hr style="border: 1px solid" />
             </td>
-            </tr>
         </table>
-        <br />
         <table width="540">
             <tr>
                 <td style="font-family: 'Times New Roman', Times, serif; font-size: 18px; text-align: center; font-weight: bold"
@@ -52,104 +48,119 @@
                     <u>PERNYATAAN KEBERATAN ATAS INFORMASI PUBLIK</u>
                 </td>
             </tr>
-            {{-- <tr>
-                <td style="text-align: center">No. Pendaftaran : {{ $data->pemohon->no_pendaftaran }}</td>
-            </tr> --}}
         </table>
-
-        <br /><br />
-        <table width="540">
+        <table width="" style="font-weight: bold; padding-top: 10">
             <tr>
-                <td width="180">No. Registrasi Keberatan</td>
+                <td>A. </td>
+                <td>INFORMASI PENGEJUAN KEBERATAN</td>
+            </tr>
+        </table>
+        <table width="540" style="padding-left: 15; padding-top: 2;">
+            <tr>
+                <td width="180" style="font-weight: bold">No. Registrasi Keberatan</td>
                 <td width="10">:</td>
                 <td width="335">
                     {{ $data->no_keberatan_informasi }}
                 </td>
             </tr>
             <tr>
-                <td width="180">Nomor Permohonan Informasi</td>
+                <td width="180" style="font-weight: bold">Nomor Pendaftar Permintaan Informasi</td>
                 <td width="10">:</td>
                 <td width="335">
+                    {{ $data->keputusanInformasi->tandaBukti->permohonanInformasi->no_permohonan_informasi }}
                 </td>
             </tr>
-            {{-- <tr>
-                <td width="180">Alamat</td>
+            <tr>
+                <td width="180" style="font-weight: bold">Tujuan Penggunaan Informasi</td>
                 <td width="10">:</td>
-                <td width="335">{{ $data->pemohon->alamat }}</td>
+                <td width="335">
+                    {{ $data->keputusanInformasi->tandaBukti->permohonanInformasi->tujuan_informasi }}
+                </td>
             </tr>
             <tr>
-                <td width="180">Nomor KTP (Sesuai KTP)</td>
-                <td width="10">:</td>
-                <td width="335">{{ $data->pemohon->nik }}</td>
+                <td width="180" style="font-weight: bold">Identitas Pemohon</td>
+                <td width="10"></td>
+                <td width="335"> </td>
             </tr>
-            <tr>
-                <td width="180">No. Telepon/Email</td>
-                <td width="10">:</td>
-                <td width="335">{{ $data->pemohon->no_tlp }} / {{ $data->pemohon->email }}</td>
-            </tr>
-            <tr>
-                <td width="180">Rincian Informasi yang Dibutuhkan</td>
-                <td width="10">:</td>
-                <td width="100">{{ $data->rincian_informasi }}</td>
-            </tr>
-            <tr>
-                <td width="180">Tujuan Penggunaan Informasi</td>
-                <td width="10">:</td>
-                <td width="335">{{ $data->tujuan_informasi }}</td>
-            </tr>
-            <tr>
-                <td width="180">Cara Memperoleh Informasi</td>
-                <td width="10">:</td>
-                <td width="335">{{ $data->kategoriMemperoleh->jenis_memperoleh }}</td>
-            </tr>
-            <tr>
-                <td width="180">Cara Mendapatkan Salinan Informasi</td>
-                <td width="10">:</td>
-                <td width="335">{{ $data->kategoriSalinan->jenis_salinan }}</td>
-            </tr> --}}
         </table>
-        <br /><br />
-        {{-- <table width="450">
+        <table width="540" style="padding-left: 50">
             <tr>
-                <td>
-                    {!! $usaha->keterangan !!}
-                </td>
+                <td width="145">Nama</td>
+                <td width="10">:</td>
+                <td width="335">{{ $data->pemohon->nama }}</td>
             </tr>
-            <br /><br />
+            <tr>
+                <td width="145">Alamat</td>
+                <td width="10">:</td>
+                <td width="335">{{ $data->pemohon->alamat }} </td>
+            </tr>
+            <tr>
+                <td width="145">Pekerjaan</td>
+                <td width="10">:</td>
+                <td width="335"> {{ $data->pemohon->pekerjaan }}</td>
+            </tr>
+            <tr>
+                <td width="145">Nomor Telepon</td>
+                <td width="10">:</td>
+                <td width="335">{{ $data->pemohon->no_tlp }}</td>
+            </tr>
+            <tr>
+                <td width="145" style="font-weight: bold; padding-top: 2">Identitas Kuasa Pemohon</td>
+                <td width="10"></td>
+                <td width="335"></td>
+            </tr>
+            <tr>
+                <td width="145">Nama</td>
+                <td width="10">:</td>
+                <td width="335">{{ $data->pemohon->nama_kuasa }}</td>
+            </tr>
+            <tr>
+                <td width="145">Alamat</td>
+                <td width="10">:</td>
+                <td width="335">{{ $data->pemohon->alamat_kuasa }}</td>
+            </tr>
+            <tr>
+                <td width="145">Nomor Telepon</td>
+                <td width="10">:</td>
+                <td width="335">{{ $data->pemohon->no_tlp_kuasa }}</td>
+            </tr>
         </table>
-        <br /><br /> --}}
-        {{-- <table width="450">
+        <table style="padding-top: 8">
             <tr>
-                <td>Demikian surat keterangan ini kami perbuat untuk dapat dipergunakan seperlunya.</td>
+                <td><strong>B. ALASAN PENGAJUAN KEBERATAN</strong></td>
             </tr>
-        </table> --}}
-        {{-- <br /><br /><br /> --}}
-        {{-- <table style="width: 540; text-align: center;">
+        </table>
+        <table style="padding-left: 15">
+            @foreach ($kategorikeb as $id => $description)
+                <tr>
+                    <td width="30">
+                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/icon/' . ($data->kategori_keberatan_id == $id ? 'check' : 'square') . '.png'))) }}"
+                            style="width: 15px; height: 15px;">
+                    </td>
+                    <td width="10">{{ chr(96 + $id) }}.</td>
+                    <td width="335">{{ $description }}</td>
+                </tr>
+            @endforeach
+        </table>
+        <table style="padding-top: 8">
             <tr>
-                <td style="width: 50%; vertical-align: middle;">
-                    <table style="width: 90%; height: 150px; margin: auto; text-align: center;">
-                        <tr>
-                            <td style="vertical-align: middle;">
-                                <p style="padding-top: 30px">Petugas Penerima Informasi</p>
-                                <p style="margin-top: 100px">{{ $data->penerimaInformasi->name }}</p>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-                <td style="width: 50%; vertical-align: middle;">
-                    <table style="width: 90%; height: 150px; margin: auto; text-align: center;">
-                        <tr>
-                            <td style="vertical-align: middle;">
-                                <p>Bogor, {{ date('d F Y', strtotime($data->tgl_permohonan)) }}</p>
-                                <p>Pemohon Informasi</p>
-                                <p style="margin-top: 100px">{{ $data->pemohon->nama }}</p>
-                            </td>
-                        </tr>
-                    </table>
+                <td><strong>C. KASUS POSISI</strong></td>
+            </tr>
+        </table>
+        <table width="535">
+            <hr style="border: 1px solid;" />
+        </table>
+        <table style="padding-top: 8">
+            <tr>
+                <td><strong>D. HARI/TANGGAL TANGGAPAN ATAS KEBERATAN AKAN DIBERIKAN :</strong></td>
+            </tr>
+        </table>
+        <table width="530" style="text-align: justify">
+            <tr>
+                <td>Demikian keberatan ini saya sampaikan, atas perhatian dan tanggapannya, saya ucapkan terimakasih.
                 </td>
             </tr>
-        </table> --}}
-
+        </table>
     </center>
 </body>
 

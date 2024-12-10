@@ -125,7 +125,7 @@
                                             <label for="sk" class="form-label font-medium">SK Badan
                                                 Hukum</label>
                                         </div>
-                                    <div class="mt-1">
+                                        <div class="mt-1">
                                             <a href="{{ 'http://ppid-baru.test/storage/' . $data->pemohon->sk_badanhukum }}"
                                                 target="_blank" class="btn btn-primary"> Lihat Dokumen
                                             </a>
@@ -141,8 +141,8 @@
                             </div>
                         </div>
                 </form>
+                <!-- END: Input -->
             </div>
-            <!-- END: Input -->
 
 
 

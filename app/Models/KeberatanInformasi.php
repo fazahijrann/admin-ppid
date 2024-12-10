@@ -16,6 +16,7 @@ class KeberatanInformasi extends Model
         'id_pemohon',
         'keputusan_informasi_id',
         'kategori_keberatan_id',
+        'status',
         'keterangan',
         'tgl_keberatan',
     ];
