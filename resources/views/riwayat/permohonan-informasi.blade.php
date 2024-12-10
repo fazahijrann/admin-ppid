@@ -35,6 +35,9 @@
                                     <th class="text-center whitespace-nowrap">Kategori Salinan</th>
                                     <th class="text-center whitespace-nowrap">Status</th>
                                     <th class="text-center whitespace-nowrap">Tanggal Keputusan</th>
+                                    @if (Auth::user()->role === 'pejabat_ppid')
+                                        <th class="text-center whitespace-nowrap">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,18 +81,6 @@
                                                     @endif
                                                 </p>
                                             </div>
-                                            {{-- <div
-                                                class="flex items-center justify-center {{ $user->statusKeputusan }}{{ $user->statusPenerimaan }}">
-                                                <i data-lucide="{{ $user->iconPenerimaan }}{{ $user->iconKeputusan }}"
-                                                    class="w-4 h-4 "></i>
-                                                <p class="text-center ml-2">
-                                                    @if ($user->tandaBuktiPenerimaan->status === 'Diteruskan')
-                                                        {{ $user->tandaBuktiPenerimaan->tandaKeputusan->status ?? '' }}
-                                                    @else
-                                                        {{ $user->tandaBuktiPenerimaan->status }}
-                                                    @endif
-                                                </p>
-                                            </div> --}}
                                         </td>
                                         <td class="text-center">
                                             @if (optional($user->tandaBuktiPenerimaan->tandaKeputusan)->tgl_keputusan === null)
@@ -99,6 +90,18 @@
                                             @endif
 
                                         </td>
+                                        @if (Auth::user()->role === 'pejabat_ppid')
+                                            <td class="table-report__action">
+                                                <div class="flex justify-center items-center">
+                                                    <a class="flex items-center mr-4"
+                                                        href="{{ route('permohonan.pdf', $user->no_permohonan_informasi) }}"
+                                                        target="_blank">
+                                                        <i data-lucide="eye" class="w-4 h-4 mr-1"></i>
+                                                        Lihat
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -61,7 +61,7 @@
                                 <div class="mt-4">
                                     <x-input-label for="captcha" :value="__('Captcha')"></x-input-label>
                                     <div class="flex">
-                                        <img src="{{ captcha_src('flat') }}" alt="captcha" id="captcha-image">
+                                        <img src="{{ captcha_src('math') }}" alt="captcha" id="captcha-image">
                                         <button type="button" onclick="refreshCaptcha()"
                                             class="btn btn-primary ml-4">&#x21bb;</button>
                                     </div>
@@ -89,7 +89,7 @@
         <script>
             function refreshCaptcha() {
                 const captchaImage = document.getElementById('captcha-image');
-                captchaImage.src = '{{ captcha_src('flat') }}' + '?' + Date.now();
+                captchaImage.src = '{{ captcha_src('math') }}' + '?' + Date.now();
             }
         </script>
     </body>

@@ -23,7 +23,7 @@ class KeputusanInformasi extends Model
 
     public function tandaBukti()
     {
-        return $this->hasOne(TandaBuktiPenerimaan::class, 'tanda_buktipenerimaan_id', 'id');
+        return $this->hasOne(TandaBuktiPenerimaan::class, 'id', 'tanda_buktipenerimaan_id');
     }
 
     public function sumberInformasi()
@@ -41,8 +41,8 @@ class KeputusanInformasi extends Model
         return $this->belongsTo(JenisInformasi::class, 'jenis_informasi_id', 'id');
     }
 
-    // public function keberatanInformasi()
-    // {
-    //     return $this->hasOne(KeberatanInformasi::class, 'keputusan_informasi_id');
-    // }
+    public function buktiPenerimaan()
+    {
+        return $this->hasOne(BuktiPenerimaanInformasi::class, 'keputusan_informasi_id');
+    }
 }

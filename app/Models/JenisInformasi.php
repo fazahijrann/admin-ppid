@@ -22,4 +22,9 @@ class JenisInformasi extends Model
         // Relasi hasMany jika satu jenis informasi dimiliki oleh banyak keputusan informasi
         return $this->hasMany(KeputusanInformasi::class, 'jenis_informasi_id', 'id');
     }
+
+    public static $jenisinf = [
+        'Softcopy (termasuk rekaman)',
+        'Hardcopy (salinan tertulis)',
+    ];
 }

@@ -2,8 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KeberatanInformasi;
+
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\BiayaInformasi;
+use App\Models\JenisInformasi;
+use App\Models\KategoriPemohon;
+use App\Models\SumberInformasi;
+use App\Models\KeberatanInformasi;
+use App\Models\PermohonanInformasi;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\BuktiPenerimaanInformasi;
+
 
 class KeberatanInformasiController extends Controller
 {
@@ -12,9 +23,12 @@ class KeberatanInformasiController extends Controller
      */
     public function index()
     {
-
-        $data = KeberatanInformasi::with('pemohon')->get();
-        // dd($data);
+        $user = Auth::user();
+        if ($user->role === 'petugas_ppid') {
+            $data = KeberatanInformasi::where('status', 'Menunggu')->get();
+        } elseif ($user->role === 'pejabat_ppid') {
+            $data = KeberatanInformasi::where('status', 'Diproses')->get();
+        }
         return view('pengelola.tampil-keberatan', compact('data'));
     }
 
@@ -23,7 +37,7 @@ class KeberatanInformasiController extends Controller
      */
     public function create()
     {
-        //
+        abort(404);
     }
 
     /**
@@ -31,7 +45,7 @@ class KeberatanInformasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort(404);
     }
 
     /**
@@ -54,9 +68,21 @@ class KeberatanInformasiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, KeberatanInformasi $keberatanInformasi)
+    public function update(Request $request, $id)
     {
-        //
+        $data = KeberatanInformasi::findOrFail($id);
+        $user = Auth::user();
+
+        if ($user->role === 'petugas_ppid') {
+            // Logika khusus untuk petugas_ppid
+            if ($request->has('action') && $request->input('action') === 'lanjutkan') {
+                // Jika ada request 'action' dengan nilai 'lanjutkan', set status menjadi 'Diproses'
+                $data->update([
+                    'status' => 'Diproses'
+                ]);
+            }
+        }
+        return redirect(route('keberatan.index'))->with('success', 'Status updated successfully');
     }
 
     /**
