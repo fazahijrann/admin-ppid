@@ -76,10 +76,41 @@ class KeberatanInformasiController extends Controller
         if ($user->role === 'petugas_ppid') {
             // Logika khusus untuk petugas_ppid
             if ($request->has('action') && $request->input('action') === 'lanjutkan') {
-                // Jika ada request 'action' dengan nilai 'lanjutkan', set status menjadi 'Diproses'
+                // Jika ada request 'action' dengan nilai 'lanjutkan', update status di database
                 $data->update([
-                    'status' => 'Diproses'
+                    'id_penerima' => Auth::id(),
+                    'status' => 'Diproses',
                 ]);
+            }
+        } elseif ($user->role === 'pejabat_ppid') {
+            // Logika khusus untuk pejabat_ppid
+            $tanggapan = $data->tanggapanKeberatan(); // Ensure this returns a valid relationship
+
+            if ($request->has('action') && $request->input('action') === 'submit') {
+                // Lakukan aksi untuk 'submit' pada pejabat_ppid
+                // Misalnya, update status atau tindakan lain yang diperlukan
+                $data->update([
+                    'status' => 'Selesai', // Contoh status baru
+                ]);
+
+                // Validate that 'tanggapan' relationship is valid before creating
+                if ($tanggapan) {
+
+                    $keputusanAtasan = $request->input('keputusan_atasan');
+
+                    // Jika 'lainnya' dicentang, gunakan nilai dari 'keputusan_atasan_lainnya'
+                    if ($request->has('keputusan_atasan') && $request->input('keputusan_atasan') == 'lainnya') {
+                        $keputusanAtasan = $request->input('keputusan_atasan_lainnya');  // Gunakan input 'lainnya'
+                    }
+
+                    $tanggapan->create([
+                        'keberatan_informasi_id' => $data->id,
+                        'keterangan' => $request->input('keterangan'),
+                        'keputusan_atasan' => $keputusanAtasan, // Store the value directly as a string
+                        'jangka_waktu' => $request->input('waktu'),
+                        'tgl_tanggapan' => now(),
+                    ]);
+                }
             }
         }
         return redirect(route('keberatan.index'))->with('success', 'Status updated successfully');
@@ -91,5 +122,16 @@ class KeberatanInformasiController extends Controller
     public function destroy(KeberatanInformasi $keberatanInformasi)
     {
         //
+    }
+
+    public function riwayatKeberatan()
+    {
+        // Ambil data dengan relasi
+        $data = KeberatanInformasi::with(['pemohon', 'keberatanInformasi', 'tanggapanKeberatan', 'keputusanInformasi', 'penerimaKeberatan'])
+            ->where('status', 'Selesai')
+            ->get();
+        // dd($data);
+        // Kirim data ke view
+        return view('riwayat.keberatan-informasi', compact('data'));
     }
 }

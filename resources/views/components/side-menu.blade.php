@@ -101,6 +101,15 @@
                     </div>
                 </a>
             </li>
+            <li>
+                <a href="{{ route('riwayatKeberatan') }}"
+                    class="side-menu {{ request()->routeIs('riwayatKeberatan') ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
+                    <div class="side-menu__title">
+                        Riwayat Keberatan Permohonan Informasi
+                    </div>
+                </a>
+            </li>
         </ul>
     </nav>
 @endif
@@ -147,6 +156,15 @@
                     <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
                     <div class="side-menu__title">
                         Riwayat Permohonan Informasi
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('riwayatKeberatan') }}"
+                    class="side-menu {{ request()->routeIs('riwayatKeberatan') ? 'side-menu--active' : '' }}">
+                    <div class="side-menu__icon"> <i data-lucide="archive"></i> </div>
+                    <div class="side-menu__title">
+                        Riwayat Keberatan Permohonan Informasi
                     </div>
                 </a>
             </li>

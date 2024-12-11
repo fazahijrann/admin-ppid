@@ -17,6 +17,7 @@ class KeberatanInformasi extends Model
         'keputusan_informasi_id',
         'kategori_keberatan_id',
         'status',
+        'id_penerima',
         'keterangan',
         'tgl_keberatan',
     ];
@@ -35,11 +36,16 @@ class KeberatanInformasi extends Model
 
     public function tanggapanKeberatan()
     {
-        return $this->hasOne(TanggapanKeberatan::class, 'keberatan_informasi_id');
+        return $this->hasOne(TanggapanKeberatan::class, 'id', 'keberatan_informasi_id');
     }
 
     public function keputusanInformasi()
     {
         return $this->belongsTo(KeputusanInformasi::class, 'keputusan_informasi_id');
+    }
+
+    public function penerimaKeberatan()
+    {
+        return $this->belongsTo(User::class, 'id_penerima');
     }
 }

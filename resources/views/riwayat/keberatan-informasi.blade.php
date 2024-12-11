@@ -11,10 +11,6 @@
         <!-- BEGIN: Content -->
         <div class="content">
 
-            <!-- INCLUDE: Modal Keberatan -->
-            @include('pengelola.partials.modalkeb')
-
-
             <!-- BEGIN: Top Bar -->
             <x-topbar />
             <!-- END: Top Bar -->
@@ -89,14 +85,6 @@
                                                         <i data-lucide="eye" class="w-4 h-4 mr-1"></i>
                                                         Lihat
                                                     </a>
-                                                    <div class="text-center">
-                                                        <a href="javascript:;" data-tw-toggle="modal"
-                                                            data-tw-target="#modal-keb-{{ $user->id }}"
-                                                            class="flex items-center mr-4"><i data-lucide="settings"
-                                                                class="w-4 h-4 mr-1"></i>
-                                                            Aksi
-                                                        </a>
-                                                    </div>
                                                 @endif
                                             </div>
                                         </td>
@@ -141,7 +129,10 @@
                 </div>
                 <!-- END: Pemohon Informasi -->
 
+
             </div>
+
+
         </div>
         <!-- END: Content -->
     </div>

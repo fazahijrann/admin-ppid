@@ -16,6 +16,8 @@ class TanggapanKeberatan extends Model
     protected $fillable = [
         'keberatan_informasi_id',
         'keterangan',
+        'keputusan_atasan',
+        'jangka_waktu',
         'tgl_tanggapan',
     ];
 

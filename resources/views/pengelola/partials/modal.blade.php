@@ -1,5 +1,6 @@
 <!-- BEGIN: Modal Content -->
 @foreach ($data as $user)
+    {{-- Modal Untuk Pejabat Memberikan Keputusan Permohonan Informasi --}}
     <div id="modal-aksi-{{ $user->id }}" class="modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -26,51 +27,7 @@
                 </div>
                 <!-- END: Modal Header -->
                 <!-- BEGIN: Modal Body -->
-                {{-- <form action="{{ route('permohonan.update', $user->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-                        <div class="col-span-12 sm:col-span-6">
-                            <label for="jenis_sumber" class="form-label">Sumber Informasi</label>
-                            <input id="jenis_sumber" name="jenis_sumber" class="form-control"
-                                placeholder="Sumber Informasi" type="text">
-                        </div>
-                        <div class="col-span-12 sm:col-span-6">
-                            <label for="biaya_informasi" class="form-label">Biaya
-                                Informasi</label>
-                            <div class="input-group">
-                                <div id="input-group-biaya" class="input-group-text">Rp.</div>
-                                <input id="biaya_informasi" name="biaya_informasi" type="number" class="form-control"
-                                    placeholder="Biaya Informasi" aria-label="biaya"
-                                    aria-describedby="input-group-biaya">
-                            </div>
-                        </div>
-                        <div class="col-span-12 sm:col-span-6">
-                            <label for="jenis_informasi" class="form-label">Jenis Informasi</label>
-                            <input id="jenis_informasi" name="jenis_informasi" type="text" class="form-control"
-                                placeholder="Jenis Informasi">
-                        </div>
-                        <div class="col-span-12 sm:col-span-6">
-                            <label for="keterangan" class="form-label">Keterangan</label>
-                            <textarea id="keterangan" name="keterangan" class="form-control pt-1 pl-2" placeholder="Keterangan"></textarea>
-                        </div>
-                    </div>
-                    <!-- END: Modal Body -->
-                    <!-- BEGIN: Modal Footer -->
-                    <div class="modal-footer">
 
-                        <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-20 mr-1">
-                            Batal
-                        </button>
-                        <button type="submit" name="action" value="tolak" class="btn btn-danger w-20 mr-1">
-                            Tolak
-                        </button>
-                        <button type="submit" name="action" value="terima" class="btn btn-primary w-20">
-                            Terima
-                        </button>
-                    </div>
-                    <!-- END: Modal Footer -->
-                </form> --}}
 
                 <!-- FORM UTAMA -->
                 <form action="{{ route('permohonan.update', $user->id) }}" method="POST">
@@ -184,7 +141,6 @@
 
 
     </div>
-
 
     {{-- <script>
         $(document).ready(function() {

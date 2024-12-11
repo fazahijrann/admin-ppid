@@ -49,13 +49,13 @@
                 </td>
             </tr>
         </table>
-        <table width="" style="font-weight: bold; padding-top: 10">
+        <table width="" style="font-weight: bold; padding-top: 6">
             <tr>
                 <td>A. </td>
-                <td>INFORMASI PENGEJUAN KEBERATAN</td>
+                <td>INFORMASI PENGAJUAN KEBERATAN</td>
             </tr>
         </table>
-        <table width="540" style="padding-left: 15; padding-top: 2;">
+        <table width="540" style="padding-left: 15;">
             <tr>
                 <td width="180" style="font-weight: bold">No. Registrasi Keberatan</td>
                 <td width="10">:</td>
@@ -125,7 +125,7 @@
                 <td width="335">{{ $data->pemohon->no_tlp_kuasa }}</td>
             </tr>
         </table>
-        <table style="padding-top: 8">
+        <table style="padding-top: 6">
             <tr>
                 <td><strong>B. ALASAN PENGAJUAN KEBERATAN</strong></td>
             </tr>
@@ -142,7 +142,7 @@
                 </tr>
             @endforeach
         </table>
-        <table style="padding-top: 8">
+        <table style="padding-top: 6">
             <tr>
                 <td><strong>C. KASUS POSISI</strong></td>
             </tr>
@@ -150,9 +150,17 @@
         <table width="535">
             <hr style="border: 1px solid;" />
         </table>
-        <table style="padding-top: 8">
+        <table>
             <tr>
-                <td><strong>D. HARI/TANGGAL TANGGAPAN ATAS KEBERATAN AKAN DIBERIKAN :</strong></td>
+                <td><strong>D. HARI/TANGGAL TANGGAPAN ATAS KEBERATAN AKAN DIBERIKAN : </strong>
+                    {{ $data->keputusanInformasi->buktiPenerimaan->waktu }}</td>
+            </tr>
+        </table>
+        <table style="padding-left: 15">
+            <tr>
+                {{-- <td>
+                    <strong>{{ \Carbon\Carbon::parse($data->tgl_permohonan)->translatedFormat('l, d F Y') }}</strong>
+                </td> --}}
             </tr>
         </table>
         <table width="530" style="text-align: justify">
@@ -161,6 +169,36 @@
                 </td>
             </tr>
         </table>
+        <table style="text-align: center; margin-top: -8" width="535">
+            <p>Bogor, {{ \Carbon\Carbon::parse($data->tgl_permohonan)->translatedFormat('d F Y') }}</p>
+        </table>
+        <table style="width: 540; text-align: center; position: absolute">
+            <tr>
+                <td style="width: 50%; vertical-align: middle;">
+                    <table style="width: 90%; margin: auto; text-align: center;">
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                <p>Petugas Penerima Keberatan</p>
+                                <p style="margin-top: 60px">
+                                    {{ $data->penerimaKeberatan->name }}
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 50%; vertical-align: middle;">
+                    <table style="width: 90%; margin: auto; text-align: center;">
+                        <tr>
+                            <td style="vertical-align: middle;">
+                                <p>Pemohon Informasi</p>
+                                <p style="margin-top: 60px">{{ $data->pemohon->nama }}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
     </center>
 </body>
 

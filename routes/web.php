@@ -25,7 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('riwayat')->group(function () {
         Route::get('/permohonan', [PermohonanInformasiController::class, 'riwayatpermohonan'])->name('riwayatPermohonan');
-        Route::get('/keberatan', [KeberatanInformasiController::class, 'riyawatKeberatan'])->name('riwayatKeberatan');
+        Route::get('/keberatan', [KeberatanInformasiController::class, 'riwayatKeberatan'])->name('riwayatKeberatan');
     });
 });
 
