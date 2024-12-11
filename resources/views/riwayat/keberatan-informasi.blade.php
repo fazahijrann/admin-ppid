@@ -66,8 +66,8 @@
                                             {{ $user->keterangan }}
                                         </td>
                                         <td class="text-center w-20">
-                                            <div class="btn btn-pending cursor-default">
-                                                <i data-lucide="clock" class="mr-2 w-5"></i>
+                                            <div class="btn btn-primary cursor-default">
+                                                <i data-lucide="check" class="mr-2 w-5"></i>
                                                 <p class="text-center">{{ $user->status }}</p>
                                             </div>
                                         </td>

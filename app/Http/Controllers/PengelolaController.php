@@ -12,30 +12,20 @@ use App\Models\PermohonanInformasi;
 
 class PengelolaController extends Controller
 {
-
-    protected $totalPermohonan;
-    protected $totalPengunjung;
-    protected $totalKeberatan;
-    protected $totalPemohon;
-    protected $role;
-
-
-    public function __construct()
-    {
-        $this->totalPermohonan = PermohonanInformasi::count();
-        $this->totalPengunjung = Statistik::count();
-        $this->totalKeberatan = KeberatanInformasi::count();
-        $this->totalPemohon = Pemohon::count();
-        $this->role = User::pluck('role');
-    }
-
     public function index()
     {
-        return view('pengelola.index', [
-            'totalPermohonan' => $this->totalPermohonan,
-            'totalPengunjung' => $this->totalPengunjung,
-            'totalKeberatan' => $this->totalKeberatan,
-            'totalPemohon' => $this->totalPemohon,
-        ]);
+        $totalPermohonan = PermohonanInformasi::count();
+        $totalPengunjung = Statistik::count();
+        $totalKeberatan = KeberatanInformasi::count();
+        $totalPemohon = Pemohon::count();
+        $role = User::pluck('role');
+
+        return view('pengelola.index', compact(
+            'totalPermohonan',
+            'totalPengunjung',
+            'totalKeberatan',
+            'totalPemohon',
+            'role'
+        ));
     }
 }
