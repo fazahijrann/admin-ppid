@@ -46,7 +46,11 @@ class PdfController extends Controller
                 7 => 'Informasi disampaikan melebihi jangka waktu yang ditentukan',
             ];
 
-            $pdf = PDF::loadview('pdf.keberatan-informasi', compact('data', 'kategorikeb'))->setPaper('f4', 'potrait');
+            $pdf = PDF::loadview('pdf.keberatan-informasi', compact(
+                'data',
+                'kategorikeb',
+            ))
+                ->setPaper('f4', 'potrait');
 
             return $pdf->stream('Keberatan Informasi-' . $data->no_keberatan_informasi . '.pdf');
         }
