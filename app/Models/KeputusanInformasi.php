@@ -17,6 +17,7 @@ class KeputusanInformasi extends Model
         'jenis_informasi_id',
         'tgl_keputusan',
         'keterangan',
+        'id_pejabat',
         'status',
         'updated_at'
     ];
@@ -44,5 +45,10 @@ class KeputusanInformasi extends Model
     public function buktiPenerimaan()
     {
         return $this->hasOne(BuktiPenerimaanInformasi::class, 'keputusan_informasi_id');
+    }
+
+    public function pejabatPenerima()
+    {
+        return $this->belongsTo(User::class, 'id_pejabat');
     }
 }

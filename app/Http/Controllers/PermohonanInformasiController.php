@@ -112,8 +112,10 @@ class PermohonanInformasiController extends Controller
 
         // Set id_penerima ke id pengguna yang login jika role adalah petugas_ppid
         if ($role === 'petugas_ppid') {
-            $data->id_penerima = Auth::id();
-            $data->save();
+            if ($request->has('action') && $request->input('action') === 'lanjutkan') {
+                $data->id_penerima = Auth::id();
+                $data->save();
+            }
         }
 
         // Ambil objek tandaBuktiPenerimaan dan simpan dalam variabel $penerimaan
@@ -175,6 +177,7 @@ class PermohonanInformasiController extends Controller
                             'sumber_informasi_id' => $sumberInformasi->id, // Ambil ID dari tabel sumber_informasi
                             'biaya_informasi_id' => $biayaInformasi->id,
                             'jenis_informasi_id' => $jenisInformasi->id, // Ambil ID dari tabel jenis_informasi
+                            'id_pejabat' => Auth::id()
                         ]);
                     } else {
                         // Jika sumber_informasi atau jenis_informasi tidak ditemukan

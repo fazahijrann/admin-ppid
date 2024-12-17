@@ -61,16 +61,15 @@
                                 <div class="mt-4">
                                     <x-input-label for="captcha" :value="__('Captcha')"></x-input-label>
                                     <div class="flex">
-                                        <img src="{{ captcha_src('math') }}" alt="captcha" id="captcha-image">
+                                        <img src="{{ captcha_src('math') }}" alt="captcha" id="captcha-image"
+                                            class="">
                                         <button type="button" onclick="refreshCaptcha()"
                                             class="btn btn-primary ml-4">&#x21bb;</button>
                                     </div>
                                     <x-text-input id="captcha" name="captcha"
                                         class="login__input form-control py-3 px-4 mt-2 block " type="text"
                                         autocomplete="off" placeholder="Masukkan Captcha" />
-
                                     <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
-
                                 </div>
 
                                 <div class="flex items-center justify-end mt-4 intro-x">

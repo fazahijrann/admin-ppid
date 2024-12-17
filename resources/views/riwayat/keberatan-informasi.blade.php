@@ -20,7 +20,7 @@
                 <div class="col-span-12 mt-6">
                     <div class="intro-y block sm:flex items-center h-10">
                         <h2 class="text-lg font-medium truncate mr-5">
-                            Permohonan Keberatan Informasi
+                            Riwayat Keberatan Permohonan Informasi
                         </h2>
                     </div>
                     <div class="intro-y overflow-auto mt-8 sm:mt-0">
@@ -34,7 +34,9 @@
                                     <th class="text-center whitespace-nowrap">Kategori Keberatan</th>
                                     <th class="text-center whitespace-nowrap">Kasus Posisi</th>
                                     <th class="text-center whitespace-nowrap">Status</th>
-                                    <th class="text-center whitespace-nowrap">Aksi</th>
+                                    @if (Auth::user()->role === 'pejabat_ppid')
+                                        <th class="text-center whitespace-nowrap">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,23 +73,18 @@
                                                 <p class="text-center">{{ $user->status }}</p>
                                             </div>
                                         </td>
-
-                                        <td class="table-report__action w-56">
-                                            <div class="flex justify-center items-center">
-                                                @if (Auth::user()->role === 'petugas_ppid')
+                                        @if (Auth::user()->role === 'pejabat_ppid')
+                                            <td class="table-report__action">
+                                                <div class="flex justify-center items-center">
                                                     <a class="flex items-center mr-4"
-                                                        href="{{ route('keberatan.show', $user->no_keberatan_informasi) }}">
-                                                        <i data-lucide="settings" class="w-4 h-4 mr-1"></i>
-                                                        Detail </a>
-                                                @elseif (Auth::user()->role === 'pejabat_ppid')
-                                                    <a class="flex items-center mr-4"
-                                                        href="{{ route('keberatan.pdf', $user->no_keberatan_informasi) }}">
+                                                        href="{{ route('keberatan.pdf', $user->no_keberatan_informasi) }}"
+                                                        target="_blank">
                                                         <i data-lucide="eye" class="w-4 h-4 mr-1"></i>
                                                         Lihat
                                                     </a>
-                                                @endif
-                                            </div>
-                                        </td>
+                                                </div>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

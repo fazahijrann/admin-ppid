@@ -7,7 +7,8 @@
         <div class="side-nav__devider my-6"></div>
         <ul>
             <li>
-                <a href="/" class="side-menu {{ request()->routeIs('dashboard') ? 'side-menu--active' : '' }}">
+                <a href="{{ route('dashboard') }}"
+                    class="side-menu {{ request()->routeIs('dashboard') ? 'side-menu--active' : '' }}">
                     <div class="side-menu__icon"> <i data-lucide="home"></i> </div>
                     <div class="side-menu__title">
                         Dashboard
@@ -20,8 +21,10 @@
                     <div class="side-menu__icon"> <i data-lucide="users"></i> </div>
                     <div class="side-menu__title">
                         Kelola Pengguna
-                        <div class="side-menu__sub-icon"> <i
-                                data-lucide="{{ request()->routeIs(['petugasppid.index', 'petugasppid.create', 'petugasppid.edit', 'pejabatppid.index', 'pejabatppid.create', 'pejabatppid.edit', 'pemohon.index', 'pemohon.edit']) ? 'chevron-up' : 'chevron-down' }}"></i>
+                        <div class="side-menu__sub-icon">
+                            <i
+                                data-lucide="{{ request()->routeIs(['petugasppid.index', 'petugasppid.create', 'petugasppid.edit', 'pejabatppid.index', 'pejabatppid.create', 'pejabatppid.edit', 'pemohon.index', 'pemohon.edit']) ? 'chevron-up' : 'chevron-down' }}">
+                            </i>
                         </div>
                     </div>
                 </a>

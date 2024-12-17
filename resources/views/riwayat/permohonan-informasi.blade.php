@@ -68,7 +68,7 @@
                                         <td class="text-center">
                                             {{ $user->kategoriSalinan->jenis_salinan }}
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-center w-44">
                                             <div
                                                 class="btn {{ $user->btnPenerimaan }}{{ $user->btnKeputusan }} cursor-default w-full">
                                                 <i data-lucide="{{ $user->iconPenerimaan }}{{ $user->iconKeputusan }}"
