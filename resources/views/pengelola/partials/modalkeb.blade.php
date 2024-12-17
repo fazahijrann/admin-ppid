@@ -93,8 +93,7 @@
                         <!-- Input Waktu Penyediaan -->
                         <div class="mt-1">
                             <label for="waktu" class="form-label">Jangka Waktu</label>
-                            <input id="waktu" type="date" name="waktu" class="form-control" placeholder=""
-                                required>
+                            <input id="waktu" type="date" name="waktu" class="form-control" placeholder="">
                         </div>
                     </div>
 

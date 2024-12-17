@@ -19,6 +19,7 @@ class TanggapanKeberatan extends Model
         'keputusan_atasan',
         'jangka_waktu',
         'tgl_tanggapan',
+        'id_pejabat'
     ];
 
     /**
@@ -27,5 +28,10 @@ class TanggapanKeberatan extends Model
     public function keberatanInformasi()
     {
         return $this->belongsTo(KeberatanInformasi::class, 'keberatan_informasi_id');
+    }
+
+    public function pejabatPenerima()
+    {
+        return $this->belongsTo(User::class, 'id_pejabat');
     }
 }

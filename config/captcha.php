@@ -14,11 +14,14 @@ return [
     ],
     'math' => [
         'length' => 7,
-        'width' => 150,
-        'height' => 40,
-        'quality' => 90,
+        'width' => 200,
+        'height' => 60,
+        'quality' => 100,
+        'dpi' => 300,
+        'anti_aliasing' => true,
         'math' => true,
-        'bgColor' => '#ecf2f4',
+        'contrast' => -5,
+
     ],
 
     'flat' => [

@@ -109,6 +109,7 @@ class KeberatanInformasiController extends Controller
                         'keputusan_atasan' => $keputusanAtasan, // Store the value directly as a string
                         'jangka_waktu' => $request->input('waktu'),
                         'tgl_tanggapan' => now(),
+                        'id_pejabat' => Auth::id()
                     ]);
                 }
             }
