@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Middleware\CheckRole;
@@ -29,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
+// Pengelolaan PDF yang hanya bisa diakses role pejabat_ppid
 Route::middleware(['auth', 'verified', CheckRole::class . ':pejabat_ppid'])->group(function () {
     Route::get('/permohonan/{no_permohonan_informasi}/pdf', [PdfController::class, 'permohonan'])->name('permohonan.pdf');
     Route::get('/keberatan/{no_keberatan_informasi}/pdf', [PdfController::class, 'keberatan'])->name('keberatan.pdf');

@@ -23,11 +23,12 @@ class KeberatanInformasiController extends Controller
      */
     public function index()
     {
+        $paginate = request()->get('per_page', 10);
         $user = Auth::user();
         if ($user->role === 'petugas_ppid') {
-            $data = KeberatanInformasi::where('status', 'Menunggu')->get();
+            $data = KeberatanInformasi::where('status', 'Menunggu')->paginate($paginate);
         } elseif ($user->role === 'pejabat_ppid') {
-            $data = KeberatanInformasi::where('status', 'Diproses')->get();
+            $data = KeberatanInformasi::where('status', 'Diproses')->paginate($paginate);
         }
         return view('pengelola.tampil-keberatan', compact('data'));
     }
@@ -127,10 +128,11 @@ class KeberatanInformasiController extends Controller
 
     public function riwayatKeberatan()
     {
+        $paginate = request()->get('per_page', 10);
         // Ambil data dengan relasi
         $data = KeberatanInformasi::with(['pemohon', 'keberatanInformasi', 'tanggapanKeberatan', 'keputusanInformasi', 'penerimaKeberatan'])
             ->where('status', 'Selesai')
-            ->get();
+            ->paginate($paginate);
         // dd($data);
         // Kirim data ke view
         return view('riwayat.keberatan-informasi', compact('data'));

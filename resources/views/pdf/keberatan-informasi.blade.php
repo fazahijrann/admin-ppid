@@ -153,7 +153,8 @@
         <table>
             <tr>
                 <td><strong>D. HARI/TANGGAL TANGGAPAN ATAS KEBERATAN AKAN DIBERIKAN : </strong>
-                    {{ $data->keputusanInformasi->buktiPenerimaan->waktu }}</td>
+                    {{-- {{ $data->keputusanInformasi->buktiPenerimaan->waktu }} --}}
+                </td>
             </tr>
         </table>
         <table style="padding-left: 15">

@@ -21,6 +21,7 @@ class PermohonanInformasiController extends Controller
      */
     public function index()
     {
+        $paginate = request()->get('per_page', 10);
         $sumbers = SumberInformasi::all();
         $jenisinf = JenisInformasi::all();
         $user = Auth::user();
@@ -29,14 +30,14 @@ class PermohonanInformasiController extends Controller
                 ->whereHas('tandaBuktiPenerimaan', function ($query) {
                     $query->where('status', 'Menunggu');
                 })
-                ->get();
+                ->paginate($paginate);
             // dd($data);   
         } elseif ($user->role === 'pejabat_ppid') {
             $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])
                 ->whereHas('tandaBuktiPenerimaan.tandaKeputusan', function ($query) {
                     $query->where('status', 'Diproses');
                 })
-                ->get();
+                ->paginate($paginate);
         }
         return view('pengelola.tampil-permohonan', compact('data', 'sumbers', 'jenisinf'));
     }
@@ -190,6 +191,7 @@ class PermohonanInformasiController extends Controller
                         'tgl_keputusan' => now(),
                         'keterangan' => $request->input('keterangan'),
                         'updated_at' => now(),
+                        'id_pejabat' => Auth::id(),
                     ]);
 
                     BuktiPenerimaanInformasi::create([
@@ -213,6 +215,7 @@ class PermohonanInformasiController extends Controller
 
     public function riwayatPermohonan()
     {
+        $paginate = request()->get('per_page', 10);
         // Ambil data dengan relasi
         $data = PermohonanInformasi::with(['pemohon', 'tandaBuktiPenerimaan', 'tandaBuktiPenerimaan.tandaKeputusan'])
             ->whereHas('tandaBuktiPenerimaan', function ($query) {
@@ -221,7 +224,7 @@ class PermohonanInformasiController extends Controller
             ->orWhereHas('tandaBuktiPenerimaan.tandaKeputusan', function ($query) {
                 $query->whereIn('status', ['Ditolak', 'Diterima']);
             })
-            ->get();
+            ->paginate($paginate);
 
         // Proses setiap item dalam koleksi
         foreach ($data as $status) {

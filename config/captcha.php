@@ -16,7 +16,7 @@ return [
         'length' => 7,
         'width' => 200,
         'height' => 60,
-        'quality' => 100,
+        'quality' => 150,
         'dpi' => 300,
         'anti_aliasing' => true,
         'math' => true,
